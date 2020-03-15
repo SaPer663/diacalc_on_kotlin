@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="3dip">
+    
+    <org.diacalc.android.components.FloatEditText
+    	android:id="@+id/editMenuDlgK1"
+    	android:layout_height="wrap_content"
+    	android:layout_width="200dip"
+    	android:inputType="numberDecimal"
+    	
+    	android:layout_alignParentTop="true"
+    	android:layout_alignParentRight="true"
+    	
+    	android:text="1.05"
+    />
+    <TextView
+    	android:id="@+id/lblMenuDlgK1"
+    	android:layout_height="wrap_content"
+    	android:layout_width="wrap_content"
+    	android:text="@string/k1"
+    	
+    	android:layout_toLeftOf="@id/editMenuDlgK1"
+    	android:layout_alignBaseline="@id/editMenuDlgK1"
+    	android:layout_marginRight="6dip"
+    />
+    <org.diacalc.android.components.FloatEditText 
+    	android:id="@+id/editMenuDlgK2"
+    	android:layout_height="wrap_content"
+    	android:layout_width="200dip"
+    	android:inputType="numberDecimal"
+    	
+    	android:layout_below="@id/editMenuDlgK1"
+    	android:layout_alignParentRight="true"
+    	
+    	android:text="0.05"
+    />
+    <TextView
+    	android:id="@+id/lblMenuDlgK2"
+    	android:layout_height="wrap_content"
+    	android:layout_width="wrap_content"
+    	android:text="@string/k2"
+    	
+    	android:layout_toLeftOf="@id/editMenuDlgK2"
+    	android:layout_alignBaseline="@id/editMenuDlgK2"
+    	android:layout_marginRight="6dip"
+    />
+    <org.diacalc.android.components.FloatEditText
+    	android:id="@+id/editMenuDlgBE"
+    	android:layout_height="wrap_content"
+    	android:layout_width="200dip"
+    	android:inputType="numberDecimal"
+    	
+    	android:layout_below="@id/editMenuDlgK2"
+    	android:layout_alignParentRight="true"
+    	
+    	android:text="10"
+    />
+    <TextView
+    	android:id="@+id/lblMenuDlgBE"
+    	android:layout_height="wrap_content"
+    	android:layout_width="wrap_content"
+    	android:text="@string/BE"
+    	
+    	android:layout_toLeftOf="@id/editMenuDlgBE"
+    	android:layout_alignBaseline="@id/editMenuDlgBE"
+    	android:layout_marginRight="6dip"
+    />
+    <Button
+    	android:id="@+id/btnMenuCoefDlgOk"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	
+    	android:text="@string/btnOk"
+    	
+    	android:layout_alignParentRight="true"
+    	android:layout_below="@id/editMenuDlgBE"
+    />
+</RelativeLayout>

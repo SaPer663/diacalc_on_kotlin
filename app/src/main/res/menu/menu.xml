@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 	Убрать старые
+ 		Очистить
+ 		Сохранить в дневник
+ 		Загрузить меню
+ 		Новый продукт 
+ 		Продукт->
+ 			удалить продукт
+ 			округлить дозу
+ 		-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/deleteOldMenu"
+          android:title="@string/deleteOldMenu" />
+    <item android:id="@+id/clearMenu"
+          android:title="@string/clearMenu" />
+<!--     <item android:id="@+id/storeMenu"
+    	android:title="@string/storeMenu" />  -->
+    <item android:id="@+id/loadMenu"
+    	android:title="@string/loadMenu" />
+    <item android:id="@+id/uploadMenu"
+    	android:title="@string/uploadMenu" />
+    <item android:id="@+id/createProdMenu"
+    	android:title="@string/createProdMenu" />
+    
+    <item android:id="@+id/productRowMenu"
+          android:title="@string/productRowMenu" >
+        <!-- "file" submenu -->
+        <menu>
+            <item android:id="@+id/deleteRowMenuSub"
+          		android:title="@string/deleteRowMenu" />
+    		<item android:id="@+id/roundDoseMenuSub"
+          		android:title="@string/roundDoseMenu" />
+        </menu>
+    </item>
+</menu>

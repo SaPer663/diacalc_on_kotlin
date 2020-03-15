@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="3dip">
+    
+    <org.diacalc.android.components.FloatEditText
+    	android:id="@+id/editMenuDlgS1"
+    	android:layout_height="wrap_content"
+    	android:layout_width="200dip"
+    	android:inputType="numberDecimal"
+    	
+    	android:layout_alignParentTop="true"
+    	android:layout_alignParentRight="true"
+    	
+    	android:text="12.5"
+    />
+    <TextView
+    	android:id="@+id/lblMenuDlgS1"
+    	android:layout_height="wrap_content"
+    	android:layout_width="wrap_content"
+    	android:text="@string/SugarSource"
+    	
+    	android:layout_toLeftOf="@id/editMenuDlgS1"
+    	android:layout_alignBaseline="@id/editMenuDlgS1"
+    	android:layout_marginRight="6dip"
+    />
+    <org.diacalc.android.components.FloatEditText 
+    	android:id="@+id/editMenuDlgS2"
+    	android:layout_height="wrap_content"
+    	android:layout_width="200dip"
+    	android:inputType="numberDecimal"
+    	
+    	android:layout_below="@id/editMenuDlgS1"
+    	android:layout_alignParentRight="true"
+    	
+    	android:text="5.6"
+    />
+    <TextView
+    	android:id="@+id/lblMenuDlgS2"
+    	android:layout_height="wrap_content"
+    	android:layout_width="wrap_content"
+    	android:text="@string/SugarTarget"
+    	
+    	android:layout_toLeftOf="@id/editMenuDlgS2"
+    	android:layout_alignBaseline="@id/editMenuDlgS2"
+    	android:layout_marginRight="6dip"
+    />
+    <org.diacalc.android.components.FloatEditText
+    	android:id="@+id/editMenuDlgOUV"
+    	android:layout_height="wrap_content"
+    	android:layout_width="200dip"
+    	android:inputType="numberDecimal"
+    	
+    	android:layout_below="@id/editMenuDlgS2"
+    	android:layout_alignParentRight="true"
+    	
+    	android:text="1.88"
+    />
+    <TextView
+    	android:id="@+id/lblMenuDlgOUV"
+    	android:layout_height="wrap_content"
+    	android:layout_width="wrap_content"
+    	android:text="@string/k3"
+    	
+    	android:layout_toLeftOf="@id/editMenuDlgOUV"
+    	android:layout_alignBaseline="@id/editMenuDlgOUV"
+    	android:layout_marginRight="6dip"
+    />
+    <Button
+    	android:id="@+id/btnMenuDRSDlgOk"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	
+    	android:text="@string/btnOk"
+    	
+    	android:layout_alignParentRight="true"
+    	android:layout_below="@id/editMenuDlgOUV"
+    />
+</RelativeLayout>

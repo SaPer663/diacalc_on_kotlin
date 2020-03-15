@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menuSettingsInfoVariants">
+        <item>Б-Ж-У-ГИ</item>
+        <item>ХЕ</item>
+        <item>Калории</item>
+        <item>Доза</item>
+    </string-array>
+    <string name="BE">ХЕ</string>
+    <string name="Cancel">Отмена</string>
+    <string name="Delete">Удалить</string>
+    <string name="MenuBD">БД:</string>
+    <string name="MenuInfo">Инф:</string>
+    <string name="MenuMD">МД:</string>
+    <string name="MenuSum">∑:</string>
+    <string name="RoundDialogTitle">Округление дозы</string>
+    <string name="SugarDialogTitle">Ввод сахаров</string>
+    <string name="SugarSource">СК старт</string>
+    <string name="SugarTarget">СК цель</string>
+    <string name="Weight">Вес</string>
+    <string name="aboutBoxText">Программа DiaCalc\nвариант для андроида.\nАвтор Connie\nСайт программы:\nhttp://diacalc.org</string>
+    <string name="aboutBoxTitle">О программе</string>
+    <string name="app_name">DCJmobile</string>
+    <string name="btnNo">Не пойдет</string>
+    <string name="btnOk">Ладно</string>
+    <string name="calor">ккал</string>
+    <string name="changeGroup">Изменить группу</string>
+    <string name="changeProduct">Изменить продукт</string>
+    <string name="clearMenu">Очистить</string>
+    <string name="coefsets">Коэф-ты</string>
+    <string name="createGroup">Создать группу</string>
+    <string name="createProdMenu">Создать продукт</string>
+    <string name="createProduct">Создать продукт</string>
+    <string name="deleteGroup">Удалить группу</string>
+    <string name="deleteOldMenu">Удалить старые</string>
+    <string name="deleteProduct">Удалить продукт</string>
+    <string name="deleteRowMenu">Удалить продукт из меню</string>
+    <string name="diary">Дневник</string>
+    <string name="downloadProducts">Загрузить</string>
+    <string name="editProduct">Изменить продукт</string>
+    <string name="errorMsgMenuLoad">При загрузке меню произошли ошибки</string>
+    <string name="errorMsgMenuUpload">При выгрузке меню произошли ошибки</string>
+    <string name="errorMsgProdsLoad">При загрузке продуктов произошли ошибки</string>
+    <string name="errorTitle">Ошибка</string>
+    <string name="gramm">г.</string>
+    <string name="gramms">г.</string>
+    <string name="groupSubMenu">Группа</string>
+    <string name="inetProdSubMenu">Интернет</string>
+    <string name="k1">k1</string>
+    <string name="k2">k2</string>
+    <string name="k3">ЦЕИ</string>
+    <string name="lblSettingsHiSh">max СК</string>
+    <string name="lblSettingsLogin">Логин</string>
+    <string name="lblSettingsLowSh">min СК</string>
+    <string name="lblSettingsMgdlBlood">мг/дл</string>
+    <string name="lblSettingsMmolBlood">ммоль/л</string>
+    <string name="lblSettingsPass">Пароль</string>
+    <string name="lblSettingsPlasmaBlood">Плазма</string>
+    <string name="lblSettingsServer">Сервер</string>
+    <string name="lblSettingsTargetSh">Целевой СК</string>
+    <string name="lblSettingsTextCoefTime">Коэффициенты</string>
+    <string name="lblSettingsWholeBlood">Цельная</string>
+    <string name="lblchBxSettingsCoefTime">рассчитывать по времени</string>
+    <string name="loadMenu">Загрузить меню</string>
+    <string name="main_no_items">База пустая</string>
+    <string name="menu">Меню</string>
+    <string name="menuLoadedMsg">Меню загружено удачно\nзаменить текущее меню?</string>
+    <string name="menuLoadedTitle">Меню загружено</string>
+    <string name="menuLoading">Загружаем меню…</string>
+    <string name="menuUploadedMsg">Меню выгружено успешно</string>
+    <string name="menuUploadedTitle">Меню выгружено</string>
+    <string name="menuUploading">Выгружаем меню…</string>
+    <string name="moveLeft">&lt;&lt;</string>
+    <string name="moveRight">>></string>
+    <string name="newProduct">Новый продукт</string>
+    <string name="noGroups">====</string>
+    <string name="pleaseWait">Пожалуйста подождите…</string>
+    <string name="prodsLoadedMsg">Продукты загружены</string>
+    <string name="prodsLoadedTitle">Продукты</string>
+    <string name="prodsLoading">Загружаем продукты…</string>
+    <string name="productName">Наименование</string>
+    <string name="productRowMenu">Продукт</string>
+    <string name="productSubMenu">Продукт</string>
+    <string name="products">Продукты</string>
+    <string name="rbtnSettingsOne">до 1 ед.</string>
+    <string name="rbtnSettingsOnehalf">до 0.5 ед.</string>
+    <string name="roundDoseMenu">Округлить дозу</string>
+    <string name="roundTo">Округляем до</string>
+    <string name="searchInProducts">Поиск</string>
+    <string name="settings">Настройки</string>
+    <string name="snackLoadedMsg">Загружен перекус, он будет добавлен в основное меню</string>
+    <string name="spinnerProductPromt">Выбор группы</string>
+    <string name="spinnerSettingsMenuInfo">Информация в меню</string>
+    <string name="storeMenu">Сохранить в дневник</string>
+    <string name="sugar1">СК1</string>
+    <string name="sugar2">СК2</string>
+    <string name="sugarFastAlert">Не рекомендуется слишком быстро снижать СК\nРекомендуемое значение целевого СК</string>
+    <string name="tabSettingsBlood">Кровь</string>
+    <string name="tabSettingsInet">Интернет</string>
+    <string name="tabSettingsMenu">Меню</string>
+    <string name="textProductCarb">У:</string>
+    <string name="textProductFat">Ж:</string>
+    <string name="textProductGI">ГИ:</string>
+    <string name="textProductName">Наименование</string>
+    <string name="textProductProt">Б:</string>
+    <string name="textProductWeight">Вес:</string>
+    <string name="textSettingsRound">Округление</string>
+    <string name="uploadMenu">Выгрузить меню</string>
+    <string name="uploadProducts">Выгрузить</string>
+    <string name="weightGr">Вес г.</string>
+    <style name="MenuInfoFont" parent="@android:style/TextAppearance">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#00FF00</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="MenuTopFont" parent="@android:style/TextAppearance">
+        <item name="android:layout_width">70dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#00FF00</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="MenuTopLabel" parent="@android:style/TextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">3dip</item>
+    </style>
+</resources>

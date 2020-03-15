@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 	
+		Поиск
+		Продукт	создать
+		Группа
+			изменить
+			создать
+			удалить
+
+ 		Загрузить
+ 		Выгрузить
+ 		-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/searchInProducts"
+       		android:title="@string/searchInProducts" />
+   	<item android:id="@+id/createProductSub"
+   		android:title="@string/createProduct" />
+    <item android:id="@+id/groupSubMenu"
+          android:title="@string/groupSubMenu">
+          <!-- submenu -->
+        <menu>
+        	<item android:id="@+id/changeGroupSub"
+        		android:title="@string/changeGroup" />
+        	<item android:id="@+id/createGroupSub"
+        		android:title="@string/createGroup" />
+        	<item android:id="@+id/deleteGroupSub"
+        		android:title="@string/deleteGroup" />
+        </menu>
+    </item>
+    
+    <item android:id="@+id/inetProdSubMenu"
+          android:title="@string/inetProdSubMenu">
+          <!-- submenu -->
+          <menu>
+    		<item android:id="@+id/downloadProducts"
+    			android:title="@string/downloadProducts" />
+    		<item android:id="@+id/uploadProducts"
+    			android:title="@string/uploadProducts" />
+    	</menu>
+    </item>
+</menu>

@@ -1,0 +1,4 @@
+#Fri Mar 13 19:03:31 YEKT 2020
+base.0=/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/dex/debug/out/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

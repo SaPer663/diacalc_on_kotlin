@@ -1,0 +1,77 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:2:1-25:12
+INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:2:1-25:12
+	package
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:3:7-36
+		INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+		INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+	android:versionName
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:5:7-32
+		INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+		INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:4:7-30
+		INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+		INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+uses-permission#android.permission.INTERNET
+ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:7:5-8:54
+	android:name
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:8:9-51
+application
+ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:10:5-24:19
+	android:label
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:11:6-38
+	android:icon
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:10:18-47
+	android:name
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:12:6-51
+activity#org.diacalc.android.DCJStart
+ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:13:9-19:20
+	android:label
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:14:19-51
+	android:name
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:13:19-43
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:15:13-18:29
+action#android.intent.action.MAIN
+ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:16:17-69
+	android:name
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:16:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:17:17-77
+	android:name
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:17:27-74
+activity#org.diacalc.android.SettingsForm
+ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:20:9-59
+	android:name
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:20:19-47
+activity#org.diacalc.android.MenuForm
+ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:21:9-55
+	android:name
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:21:19-43
+activity#org.diacalc.android.ProdForm
+ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:22:3-23:14
+	android:name
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:22:13-37
+uses-sdk
+INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+		INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+		ADDED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+		INJECTED from /home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml

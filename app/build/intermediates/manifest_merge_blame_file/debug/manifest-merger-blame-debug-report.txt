@@ -1,0 +1,56 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="org.diacalc.android"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="15"
+8-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:7:5-8:54
+11-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:8:9-51
+12
+13    <application
+13-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:10:5-24:19
+14        android:name="org.diacalc.android.DataPocket"
+14-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:12:6-51
+15        android:debuggable="true"
+16        android:icon="@drawable/icon"
+16-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:10:18-47
+17        android:label="@string/app_name"
+17-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:11:6-38
+18        android:testOnly="true" >
+19        <activity
+19-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:13:9-19:20
+20            android:name="org.diacalc.android.DCJStart"
+20-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:13:19-43
+21            android:label="@string/app_name" >
+21-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:14:19-51
+22            <intent-filter>
+22-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:15:13-18:29
+23                <action android:name="android.intent.action.MAIN" />
+23-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:16:17-69
+23-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:16:25-66
+24
+25                <category android:name="android.intent.category.LAUNCHER" />
+25-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:17:17-77
+25-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:17:27-74
+26            </intent-filter>
+27        </activity>
+28        <activity android:name="org.diacalc.android.SettingsForm" />
+28-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:20:9-59
+28-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:20:19-47
+29        <activity android:name="org.diacalc.android.MenuForm" />
+29-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:21:9-55
+29-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:21:19-43
+30        <activity android:name="org.diacalc.android.ProdForm" >
+30-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:22:3-23:14
+30-->/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/AndroidManifest.xml:22:13-37
+31        </activity>
+32    </application>
+33
+34</manifest>

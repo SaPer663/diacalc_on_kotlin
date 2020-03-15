@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    >
+    <TextView
+    	android:id="@+id/textNameProdDlg"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/textProductName"/>
+    <EditText
+    	android:id="@+id/editNameProdDlg"
+    	android:singleLine="true"
+    	android:hint="@string/productName"
+    	
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	
+    	android:layout_below="@id/textNameProdDlg"
+    />
+    <org.diacalc.android.components.FloatEditText
+    	android:id="@+id/editWeightProdDlg"
+    	android:layout_width="80dip"
+    	android:layout_height="wrap_content"
+    	android:hint="@string/weightGr"
+    	android:inputType="numberDecimal"
+    	
+    	android:layout_below="@id/editNameProdDlg"
+    	android:layout_marginLeft="40dip"
+		android:layout_marginStart="40dip" />
+    
+    <TextView
+    	android:id="@+id/textWeightProdDlg"
+    	android:layout_width="40dip"
+    	android:layout_height="wrap_content"
+    	android:text="@string/textProductWeight"
+    	
+    	android:layout_below="@id/editNameProdDlg"
+    	android:layout_alignBaseline="@id/editWeightProdDlg"
+    	android:gravity="right"
+    />
+    
+    <LinearLayout
+    	android:id="@+id/centerPane1ProdDlg"
+    	android:layout_height="wrap_content"
+    	android:layout_width="fill_parent"
+    	android:orientation="horizontal"
+    	android:layout_below="@id/editWeightProdDlg">
+
+		<!-- Добавил 1 в конце id для уникальности-->
+    	<LinearLayout
+    		android:id="@+id/pane1ProdDlg1"
+    		android:layout_height="wrap_content"
+    		android:layout_width="fill_parent"
+    		android:orientation="horizontal"
+    		android:layout_weight="1">
+    		<TextView
+    			android:id="@+id/textProtProdDlg"
+    			android:layout_width="40dip"
+    			android:layout_height="wrap_content"
+    			android:gravity="right"
+    			android:text="@string/textProductProt"
+    		/>
+    		<org.diacalc.android.components.FloatEditText
+    			android:id="@+id/editProtProdDlg"
+    			android:hint="@string/gramms"
+    			android:inputType="numberDecimal"
+    	
+		    	android:layout_width="100dip"
+    			android:layout_height="wrap_content"
+    		/>
+    	</LinearLayout>
+    	<LinearLayout
+    		android:id="@+id/pane1ProdDlg2"
+    		android:layout_height="wrap_content"
+    		android:layout_width="fill_parent"
+    		android:orientation="horizontal"
+    		android:layout_weight="1">
+    		<TextView
+    			android:id="@+id/textFatProdDlg"
+    			android:layout_width="40dip"
+    			android:layout_height="wrap_content"
+    			android:gravity="right"
+    			android:text="@string/textProductFat"
+    		/>
+    		<org.diacalc.android.components.FloatEditText
+    			android:id="@+id/editFatProdDlg"
+    			android:hint="@string/gramms"
+    			android:inputType="numberDecimal"
+    	
+    			android:layout_width="100dip"
+    			android:layout_height="wrap_content"
+    		/>
+    	</LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+    	android:id="@+id/centerPane2ProdDlg"
+    	android:layout_height="wrap_content"
+    	android:layout_width="fill_parent"
+    	android:orientation="horizontal"
+    	android:layout_below="@id/centerPane1ProdDlg"
+    >
+    	<LinearLayout
+    		android:id="@+id/pane1ProdDlg3"
+    		android:layout_height="wrap_content"
+    		android:layout_width="fill_parent"
+    		android:orientation="horizontal"
+    		android:layout_weight="1">
+    		<TextView
+    			android:id="@+id/textCarbProdDlg"
+    			android:layout_width="40dip"
+    			android:layout_height="wrap_content"
+    			android:gravity="right"
+    			android:text="@string/textProductCarb"
+    		/>
+    		<org.diacalc.android.components.FloatEditText
+    			android:id="@+id/editCarbProdDlg"
+    			android:hint="@string/gramms"
+    			android:inputType="numberDecimal"
+    	
+    			android:layout_width="100dip"
+    			android:layout_height="wrap_content"
+    		/>
+    	</LinearLayout>
+    	<LinearLayout
+    		android:id="@+id/pane1ProdDlg"
+    		android:layout_height="wrap_content"
+    		android:layout_width="fill_parent"
+    		android:orientation="horizontal"
+    		android:layout_weight="1">
+    		<TextView
+    			android:id="@+id/textGiProdDlg"
+    			android:layout_width="40dip"
+    			android:layout_height="wrap_content"
+    			android:gravity="right"
+    			android:text="@string/textProductGI"
+    		/>
+    		<org.diacalc.android.components.FloatEditText
+    			android:id="@+id/editGiProdDlg"
+    			android:inputType="numberDecimal"
+    			
+    			android:layout_width="100dip"
+    			android:layout_height="wrap_content"
+    		/>
+    	</LinearLayout>
+    </LinearLayout>
+    <Spinner
+ 			android:id="@+id/spinnerGroupSelectProdDlg"
+ 			android:layout_width="fill_parent"
+ 			android:layout_height="wrap_content"
+ 			android:drawSelectorOnTop="false"
+ 			android:prompt="@string/spinnerProductPromt"
+ 			
+ 			android:layout_below="@id/centerPane2ProdDlg"
+ 		/>
+    <Button
+    	android:id="@+id/btnProdDlgOk"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	
+    	android:text="@string/btnOk"
+    	
+    	android:layout_alignParentLeft="true"
+    	android:layout_below="@id/spinnerGroupSelectProdDlg"
+		android:layout_alignParentStart="true" />
+    <Button
+    	android:id="@+id/btnProdDlgNo"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	
+    	android:text="@string/btnNo"
+    	
+    	android:layout_alignParentRight="true"
+    	android:layout_below="@id/spinnerGroupSelectProdDlg"
+		android:layout_alignParentEnd="true" />
+</RelativeLayout>

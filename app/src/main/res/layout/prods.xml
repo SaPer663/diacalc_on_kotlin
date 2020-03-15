@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <Button
+    	android:id="@+id/btnProdMoveLeft"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/moveLeft"
+    	
+    	android:onClick="onClickMoveLeft"
+    />
+    <Button
+    	android:id="@+id/btnProdMoveRight"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="@string/moveRight"
+    	
+    	android:onClick="onClickMoveRight"
+    	
+    	android:layout_alignParentRight="true"
+    />
+    <TextView 
+    	android:id="@+id/textProdGroupName"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:text="====="
+    	
+    	android:gravity="center"
+    	
+    	android:layout_toRightOf="@id/btnProdMoveLeft"
+    	android:layout_toLeftOf="@id/btnProdMoveRight"
+    	android:layout_alignBaseline="@id/btnProdMoveLeft"
+    	/>
+    <ListView
+    	android:id="@+id/android:list"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	
+    	android:layout_below="@id/btnProdMoveLeft"
+    	android:layout_alignParentLeft="true"
+    	android:layout_alignParentRight="true"
+    	android:layout_alignParentBottom="true"
+    />
+    <TextView
+    	android:id="@+id/android:empty"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:text="@string/main_no_items"
+    
+    	android:gravity="center"
+    	
+    	android:layout_below="@id/btnProdMoveLeft"
+    	android:layout_alignParentLeft="true"
+    	android:layout_alignParentRight="true"
+    	android:layout_alignParentBottom="true"
+    />
+    <Button
+    	android:id="@+id/btnProdStar"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:padding="12dip"
+    	android:text="*"
+    	android:onClick="onStarButtonClick"
+    	
+    	android:layout_alignParentRight="true"
+    	android:layout_alignParentBottom="true"
+    />
+</RelativeLayout>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" 
+	android:layout_height="wrap_content"
+	>
+	<RelativeLayout 
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:id="@+id/topMenuInfo"
+		android:paddingTop="3dip"
+		android:paddingBottom="3dip"
+	>
+		<TextView android:id="@+id/lblMenuBD" 
+			style="@style/MenuTopLabel"
+			android:text="@string/MenuBD" />
+		
+		<TextView android:id="@+id/textMenuBD" 
+			style="@style/MenuTopFont"
+			android:text=""
+			android:layout_toRightOf="@id/lblMenuBD"
+		/>
+		<TextView android:id="@+id/lblMenuMD" 
+			style="@style/MenuTopLabel"
+			android:text="@string/MenuMD" 
+			android:layout_toRightOf="@id/textMenuBD"
+			/>
+		<TextView android:id="@+id/textMenuMD" 
+			style="@style/MenuTopFont"
+			android:text=""
+			android:layout_toRightOf="@id/lblMenuMD"
+		/>
+		
+		<TextView android:id="@+id/textMenuSum" 
+			style="@style/MenuTopFont"
+			android:text=""
+			android:layout_alignParentRight="true"
+		/>
+		<TextView android:id="@+id/lblMenuSum" 
+			style="@style/MenuTopLabel"
+			android:text="@string/MenuSum" 
+			android:layout_toLeftOf="@id/textMenuSum"
+		/>
+		<TextView android:id="@+id/lblMenuInfo" 
+			style="@style/MenuTopLabel"
+			android:text="@string/MenuInfo" 
+			android:layout_below="@id/lblMenuBD"
+		/>
+		<TextView android:id="@+id/textMenuInfo" 
+			style="@style/MenuInfoFont"
+			android:text="" 
+			android:layout_below="@id/lblMenuBD"
+			android:layout_toRightOf="@id/lblMenuInfo"
+		/>
+	</RelativeLayout>
+	<LinearLayout
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:id="@+id/bottomMenuInfo"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentBottom="true"
+	>
+		<Button 
+			android:id="@+id/btnMenuCoef"
+			android:text="replacing at runtime"
+			
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			
+			android:onClick="onClickButtonMenuCoef"
+		/>
+		<Button 
+			android:id="@+id/btnMenuDPS"
+			android:text="replacing at runtime"
+			
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:layout_weight="1"
+			android:onClick="onClickButtonMenuDRS"
+		/>
+		
+	</LinearLayout>
+	
+	<ScrollView 
+		android:id="@+id/scrollViewMenu"
+    	android:orientation="vertical"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	
+    	android:layout_below="@id/topMenuInfo" 
+		android:layout_above="@id/bottomMenuInfo"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentRight="true"
+    	
+    	>
+    	<LinearLayout android:id="@+id/listPaneMenu"
+    		android:orientation="vertical"
+    		android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		>
+    		
+    	</LinearLayout>
+    </ScrollView>
+    <Button
+    	android:id="@+id/btnMenuStar"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:padding="12dip"
+    	android:text="*"
+    	android:onClick="onStarMenuButtonClick"
+    	
+    	android:layout_alignParentRight="true"
+    	android:layout_below="@id/topMenuInfo"
+    />
+</RelativeLayout>

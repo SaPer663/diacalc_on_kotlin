@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:padding="3dip"
+    >
+    <CheckBox
+    	android:id="@+id/checkProductSelected"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:focusable="false"
+    	android:clickable="false"
+    	
+    	android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        
+        android:layout_marginRight="6dip"
+    	 />
+    <TextView
+    	android:id="@+id/textProductName"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	
+    	android:layout_toRightOf="@id/checkProductSelected"
+    	android:layout_alignParentTop="true"
+    	android:layout_alignParentRight="true"
+    	
+    	android:textSize="18sp"
+    	
+    	android:text="Продукт"
+    />
+    <TextView
+    	android:id="@+id/textProductDescription"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	
+    	android:layout_toRightOf="@id/checkProductSelected"
+    	android:layout_alignParentBottom="true"
+    	android:layout_alignParentRight="true"
+    	android:layout_below="@id/textProductName"
+    	
+    	android:textSize="12sp"
+    	android:text="8-5-96-6"
+    />
+    
+    
+</RelativeLayout>    

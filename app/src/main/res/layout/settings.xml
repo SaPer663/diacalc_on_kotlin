@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <TabHost android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:id="@+id/tabHost"
+    	xmlns:android="http://schemas.android.com/apk/res/android"
+    	>
+    	<TabWidget android:layout_width="fill_parent"
+    		android:layout_height="wrap_content"
+    		android:id="@android:id/tabs"
+    	/>
+     		<FrameLayout
+     			android:layout_width="fill_parent"
+    			android:layout_height="fill_parent"
+    			android:id="@android:id/tabcontent"
+     		>
+     		<!-- 
+     			Начинаем вкладку tabInet 
+     		-->
+     			<LinearLayout
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:id="@+id/tabSettingsInet"
+    				android:orientation="vertical"
+    				android:paddingTop="60dp"
+    			>
+	<TextView 
+	   	android:layout_width="wrap_content"
+	   	android:layout_height="wrap_content"
+    	android:text="@string/lblSettingsServer" 
+    	android:id="@+id/lblSettingsServer" 
+    />
+    <EditText 
+    	android:text="" 
+    	android:id="@+id/editSettingsServer" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="fill_parent" 
+    	android:inputType="textUri"/>
+	<!-- В TextView изменил id с android:id="@+id/lblSettingsLogin"
+	     так как было не уникальное id с другим TextView
+	-->
+    <TextView
+    	android:text="@string/lblSettingsLogin"
+	   	android:id="@+id/lblSettingsLogin1"
+    	android:layout_height="wrap_content"
+    	android:layout_width="wrap_content"
+    />
+    <EditText 
+    	android:text="" 
+    	android:id="@+id/editSettingsLogin" 
+    	android:layout_height="wrap_content"
+    	android:layout_width="fill_parent" 
+    	android:singleLine="true"/>
+
+	<!-- Вот с этим-->
+	<TextView 
+    	android:layout_width="wrap_content" 
+    	android:text="@string/lblSettingsPass" 
+    	android:id="@+id/lblSettingsLogin" 
+    	android:layout_height="wrap_content"
+    />
+    <EditText 
+    	android:text="" 
+    	android:id="@+id/editSettingsPass" 
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:textStyle="bold"
+ 		android:password="true" 
+ 		android:inputType="textPassword"
+    />
+     				
+     			</LinearLayout>
+     			<!-- Закончили вкладку inetTab -->
+     			<!-- Начинаем вкладку tabBlood -->
+     			<LinearLayout
+    				android:layout_width="fill_parent"
+    				android:layout_height="fill_parent"
+    				android:id="@+id/tabSettingsBlood"
+    				android:orientation="vertical"
+    				android:paddingTop="60dp"
+    			>
+    			<include layout="@layout/settings_bloodtab"/>
+    			</LinearLayout>
+    			<!-- Закончили вкладку tabBlood -->
+    			
+    			<!-- Начинаем вкладку tabMenu -->
+     			
+     			<LinearLayout
+    				android:layout_width="fill_parent"
+    				android:layout_height="wrap_content"
+    				android:id="@+id/tabSettingsMenu"
+    				android:orientation="vertical"
+    				android:paddingTop="60dp"
+    			>
+    			<include layout="@layout/settings_menutab"/>
+    			</LinearLayout>
+     			<!-- Закончили вкладку tabMenu -->
+			</FrameLayout>
+</TabHost>
