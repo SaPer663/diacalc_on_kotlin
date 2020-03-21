@@ -12,7 +12,7 @@ import org.diacalc.android.maths.User;
 import org.diacalc.android.products.ProductGroup;
 import org.diacalc.android.products.ProductInBase;
 import org.diacalc.android.products.ProductInMenu;
-import org.diacalc.android.products.ProductW;
+import org.diacalc.android.products.ProductFeatures;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;

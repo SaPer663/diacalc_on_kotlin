@@ -2,74 +2,73 @@ package org.diacalc.android.components
 
 import android.text.InputFilter
 import android.widget.EditText
+import kotlin.math.abs
 
 class FloatEditText : EditText {
     //new DecimalFormatSymbols().getDecimalSeparator();
-    private var df: java.text.DecimalFormat? = null
+    private var decimalFormat: java.text.DecimalFormat = java.text.DecimalFormat()
 
-    constructor(context: android.content.Context?) : super(context) {
+    constructor(context: android.content.Context) : super(context) {
         init()
     }
 
-    constructor(context: android.content.Context?, attrs: android.util.AttributeSet?) : super(context, attrs) {
+    constructor(context: android.content.Context, attrs: android.util.AttributeSet?) : super(context, attrs) {
         init()
     }
 
-    constructor(context: android.content.Context?, attrs: android.util.AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
+    constructor(context: android.content.Context, attrs: android.util.AttributeSet?, defStyle: Int) : super(context, attrs, defStyle) {
         init()
     }
 
     private fun init() {
-        setZeroes(1)
+        setZeroesAfterDecimalPoint(1)
     }
 
-    fun setZeroes(z: Int) { //z - количество знаков после запятой
-        this.filters = arrayOf<InputFilter>(FloatInputFilter(z))
+    fun setZeroesAfterDecimalPoint(numberOfZeroes: Int) { //z - количество знаков после запятой
+        this.filters = arrayOf<InputFilter>(FloatInputFilter(numberOfZeroes))
         var pattern = "0"
-        if (z > 0) {
+        if (numberOfZeroes > 0) {
             pattern += DECIMAL_SEPARATOR
-            for (i in 0 until z) {
+            for (i in 0 until numberOfZeroes) {
                 pattern += "0"
             }
         }
-        val f: java.text.NumberFormat = java.text.NumberFormat.getInstance(java.util.Locale.US)
-        if (f is java.text.DecimalFormat) {
-            df = f as java.text.DecimalFormat
-            df!!.applyPattern(pattern)
+        val format: java.text.NumberFormat = java.text.NumberFormat.getInstance(java.util.Locale.US)
+        if (format is java.text.DecimalFormat) {
+            decimalFormat = format
+            decimalFormat.applyPattern(pattern)
         }
-    }//Не нуль
-    //вместо нуля ставим пустую строку
-//Log.e("FloatEditText", ex.getMessage());
-
-    //Не нуль
-    //setText(df.format(vl));
-    //вместо нуля ставим пустую строку
-    //String st = getText().toString().replace(DECIMAL_SEPARATOR, '.');
-    var value: Float
+    }
+    var formattedValue: Float
         get() { //String st = getText().toString().replace(DECIMAL_SEPARATOR, '.');
-            var vl = 0f
+            var rezult = 0f
             try {
-                vl = getText().toString().trim { it <= ' ' }.toFloat()
+                rezult = text.toString().trim().toFloat()
             } catch (ex: java.lang.Exception) { //Log.e("FloatEditText", ex.getMessage());
             }
-            if (java.lang.Math.abs(vl - 0) > 0.0001) { //Не нуль
-                setText(df?.format(vl.toDouble()))
+            if (abs(rezult - 0) > 0.0001) { //Не нуль
+                setText(decimalFormat.format(rezult.toDouble()))
             } else setText("") //вместо нуля ставим пустую строку
-            return vl
+            return rezult
         }
-        set(vl) {
-            if (java.lang.Math.abs(vl - 0) > 0.0001) { //Не нуль
-                if (df != null) {
-                    setText(df!!.format(vl.toDouble()))
-                } else {
-                    setText("" + vl)
-                }
+        set(value) {
+            if (abs(value - 0) > 0.0001) { //Не нуль
+                setText(decimalFormat.format(value.toDouble()))
                 //setText(df.format(vl));
-            } else setText("") //вместо нуля ставим пустую строку
-            setSelection(getText().length)
+            }
+            else setText("") //вместо нуля ставим пустую строку
+            setSelection(text.length)
         }
 
     companion object {
         private const val DECIMAL_SEPARATOR = '.'
     }
 }
+//Не нуль
+//вместо нуля ставим пустую строку
+//Log.e("FloatEditText", ex.getMessage());
+
+//Не нуль
+//setText(df.format(vl));
+//вместо нуля ставим пустую строку
+//String st = getText().toString().replace(DECIMAL_SEPARATOR, '.');

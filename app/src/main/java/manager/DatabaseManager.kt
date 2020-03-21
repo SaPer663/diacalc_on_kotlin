@@ -4,15 +4,16 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import org.diacalc.android.maths.Factors
+import org.diacalc.android.maths.User
 import org.diacalc.android.products.ProductGroup
 import org.diacalc.android.products.ProductInBase
 import org.diacalc.android.products.ProductInMenu
 import java.util.ArrayList
 
-class DatabaseManager(context: android.content.Context?) : SQLiteOpenHelper(context, dbName, null, dbVersion) {
+class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(context, dbName, null, dbVersion) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("DROP TABLE IF EXISTS $userTable")
-        db.execSQL("DROP TABLE IF EXISTS $prodsTable")
+        db.execSQL("DROP TABLE IF EXISTS $productsTable")
         db.execSQL("DROP TABLE IF EXISTS $groupTable")
         db.execSQL("DROP TABLE IF EXISTS $menuTable")
         db.execSQL("CREATE TABLE " + userTable + " (" +
@@ -22,55 +23,55 @@ class DatabaseManager(context: android.content.Context?) : SQLiteOpenHelper(cont
                 USER_SERVER + " TEXT, " +
                 USER_MMOL + " INTEGER NOT NULL, " +
                 USER_PLASMA + " INTEGER NOT NULL, " +
-                USER_TARGET + " REAL NOT NULL, " +
-                USER_LOW + " REAL, " +
-                USER_HI + " REAL, " +
+                USER_TARGET_SUGAR + " REAL NOT NULL, " +
+                USER_LOW_SUGAR + " REAL, " +
+                USER_HIGH_SUGAR + " REAL, " +
                 USER_ROUND + " INTEGER, " +
-                USER_BE + " REAL NOT NULL, " +
+                USER_BASE_UNIT + " REAL NOT NULL, " +
                 USER_K1 + " REAL NOT NULL, " +
                 USER_K2 + " REAL NOT NULL, " +
-                USER_K3 + " REAL NOT NULL, " +
-                USER_S1 + " REAL NOT NULL, " +
-                USER_S2 + " REAL NOT NULL, " +
+                USER_UNIT_COST_OF_INSULIN + " REAL NOT NULL, " +
+                USER_HIGH_VALUE_SUGAR + " REAL NOT NULL, " +
+                USER_TARGET_VALUE_SUGAR + " REAL NOT NULL, " +
                 USER_TIME_SENSE + " INTEGER NOT NULL, " +
                 USER_MENU_INFO + " INTEGER);")
         //db.execSQL() Тут нужно внести нового дефолтного пользователя
-        val us: org.diacalc.android.maths.User = org.diacalc.android.maths.User("noname", "", org.diacalc.android.maths.User.DEF_SERVER, Factors(),
+        val user: org.diacalc.android.maths.User = org.diacalc.android.maths.User("noname", "", org.diacalc.android.maths.User.DEF_SERVER, Factors(),
                 org.diacalc.android.maths.User.ROUND_1, org.diacalc.android.maths.User.WHOLE, org.diacalc.android.maths.User.MMOL, 5.6f, 5.6f,
                 org.diacalc.android.maths.User.NO_TIMESENSE, 5.6f, 3.2f, 7.8f, 0)
-        val cv = ContentValues(16)
-        cv.put(USER_LOGIN, us.login)
-        cv.put(USER_PASS, us.pass)
-        cv.put(USER_SERVER, us.server)
-        cv.put(USER_K1, us.factors.k1Value)
-        cv.put(USER_K2, us.factors.getK2())
-        cv.put(USER_K3, us.factors.k3)
-        cv.put(USER_BE, us.factors.bEValue)
-        cv.put(USER_ROUND, us.round)
-        cv.put(USER_PLASMA, if (us.isPlasma) 1 else 0) //Если плазма, то пишем 1, иначе нуль
-        cv.put(USER_MMOL, if (us.isMmol) 1 else 0)
-        cv.put(USER_S1, us.s1)
-        cv.put(USER_S2, us.s2)
-        cv.put(USER_TIME_SENSE, if (us.isTimeSense) 1 else 0)
-        cv.put(USER_TARGET, us.targetSugar)
-        cv.put(USER_LOW, us.lowSugar)
-        cv.put(USER_HI, us.hiSugar)
-        cv.put(USER_MENU_INFO, us.menuInfo)
-        db.insert(userTable, null, cv)
+        val contentValues = ContentValues(16)
+        contentValues.put(USER_LOGIN, user.login)
+        contentValues.put(USER_PASS, user.pass)
+        contentValues.put(USER_SERVER, user.server)
+        contentValues.put(USER_K1, user.factorsProperty.k1Value)
+        contentValues.put(USER_K2, user.factorsProperty.getK2())
+        contentValues.put(USER_UNIT_COST_OF_INSULIN, user.factorsProperty.unitCostOfInsulin)
+        contentValues.put(USER_BASE_UNIT, user.factorsProperty.baseUnitValue)
+        contentValues.put(USER_ROUND, user.round)
+        contentValues.put(USER_PLASMA, if (user.isPlasma) 1 else 0) //Если плазма, то пишем 1, иначе нуль
+        contentValues.put(USER_MMOL, if (user.isMmol) 1 else 0)
+        contentValues.put(USER_HIGH_VALUE_SUGAR, user.highBloodSugar)
+        contentValues.put(USER_TARGET_VALUE_SUGAR, user.bloodSugarTargets)
+        contentValues.put(USER_TIME_SENSE, if (user.isTimeSense) 1 else 0)
+        contentValues.put(USER_TARGET_SUGAR, user.targetSugar)
+        contentValues.put(USER_LOW_SUGAR, user.lowSugar)
+        contentValues.put(USER_HIGH_SUGAR, user.hiSugar)
+        contentValues.put(USER_MENU_INFO, user.menuInfo)
+        db.insert(userTable, null, contentValues)
 
         //create groupTable
         db.execSQL("CREATE TABLE " + groupTable + " (" +
                 GROUP_ID + " INTEGER PRIMARY KEY NOT NULL, " +
                 GROUP_NAME + " TEXT NOT NULL, " +
-                GROUP_SORT_INDX + " INTEGER);")
+                GROUP_SORT_INDEX + " INTEGER);")
 
         //create productsTable
-        db.execSQL("CREATE TABLE " + prodsTable + " (" +
+        db.execSQL("CREATE TABLE " + productsTable + " (" +
                 PROD_ID + " INTEGER PRIMARY KEY NOT NULL, " +
                 PROD_NAME + " TEXT NOT NULL, " +
-                PROD_PROT + " REAL NOT NULL, " +
-                PROD_FAT + " REAL NOT NULL, " +
-                PROD_CARB + " REAL NOT NULL, " +
+                PROD_PROTEINS + " REAL NOT NULL, " +
+                PROD_FATS + " REAL NOT NULL, " +
+                PROD_CARBS + " REAL NOT NULL, " +
                 PROD_GI + " INTEGER NOT NULL, " +
                 PROD_WEIGHT + " REAL NOT NULL, " +
                 PROD_MOBILE + " INTEGER NOT NULL, " +
@@ -81,9 +82,9 @@ class DatabaseManager(context: android.content.Context?) : SQLiteOpenHelper(cont
         db.execSQL("CREATE TABLE " + menuTable + " (" +
                 PROD_ID + " INTEGER PRIMARY KEY NOT NULL, " +  //Индекс
                 PROD_NAME + " TEXT NOT NULL, " +
-                PROD_PROT + " REAL NOT NULL, " +
-                PROD_FAT + " REAL NOT NULL, " +
-                PROD_CARB + " REAL NOT NULL, " +
+                PROD_PROTEINS + " REAL NOT NULL, " +
+                PROD_FATS + " REAL NOT NULL, " +
+                PROD_CARBS + " REAL NOT NULL, " +
                 PROD_GI + " INTEGER NOT NULL, " +
                 PROD_WEIGHT + " REAL, " +
                 MENU_SNACK + " INTEGER);") //перекус ли, оставляем на будущее
@@ -95,139 +96,133 @@ class DatabaseManager(context: android.content.Context?) : SQLiteOpenHelper(cont
         //do nothing yet
         db.execSQL("DROP TABLE  IF EXISTS $userTable")
         db.execSQL("DROP TABLE  IF EXISTS $groupTable")
-        db.execSQL("DROP TABLE  IF EXISTS $prodsTable")
+        db.execSQL("DROP TABLE  IF EXISTS $productsTable")
         db.execSQL("DROP TABLE  IF EXISTS $menuTable")
         onCreate(db)
     }
 
-    val menuProducts: java.util.ArrayList<ProductInMenu>
+    val menuProducts: ArrayList<ProductInMenu>
         get() {
             val db: SQLiteDatabase = readableDatabase
-            val prods: java.util.ArrayList<ProductInMenu> = ArrayList()
-            val c: android.database.Cursor = db.rawQuery("SELECT * FROM $menuTable ORDER BY $PROD_NAME", null)
-            c.moveToFirst()
-            if (c.count > 0) do {
-                prods.add(
+            val productsInMenu: ArrayList<ProductInMenu> = ArrayList()
+            val cursor: android.database.Cursor = db.rawQuery("SELECT * FROM $menuTable ORDER BY $PROD_NAME", null)
+            cursor.moveToFirst()
+            if (cursor.count > 0) do {
+                productsInMenu.add(
                         ProductInMenu(
-                                c.getString(c.getColumnIndexOrThrow(PROD_NAME)),
-                                c.getFloat(c.getColumnIndexOrThrow(PROD_PROT)),
-                                c.getFloat(c.getColumnIndexOrThrow(PROD_FAT)),
-                                c.getFloat(c.getColumnIndexOrThrow(PROD_CARB)),
-                                c.getInt(c.getColumnIndexOrThrow(PROD_GI)),
-                                c.getFloat(c.getColumnIndexOrThrow(PROD_WEIGHT)),
+                                cursor.getString(cursor.getColumnIndexOrThrow(PROD_NAME)),
+                                cursor.getFloat(cursor.getColumnIndexOrThrow(PROD_PROTEINS)),
+                                cursor.getFloat(cursor.getColumnIndexOrThrow(PROD_FATS)),
+                                cursor.getFloat(cursor.getColumnIndexOrThrow(PROD_CARBS)),
+                                cursor.getFloat(cursor.getColumnIndexOrThrow(PROD_GI)),
+                                cursor.getFloat(cursor.getColumnIndexOrThrow(PROD_WEIGHT)),
                                 -1)
                 )
-            } while (c.moveToNext())
-            c.close()
+            } while (cursor.moveToNext())
+            cursor.close()
             db.close()
-            return prods
+            return productsInMenu
         }
 
-    val products: java.util.ArrayList<ProductInBase>
+    val productsInBase: ArrayList<ProductInBase>
         get() {
-            val prods: java.util.ArrayList<ProductInBase> = ArrayList()
+            val products: ArrayList<ProductInBase> = ArrayList()
             val db: SQLiteDatabase = readableDatabase
-            val c: android.database.Cursor = db.rawQuery("SELECT * FROM $prodsTable ORDER BY $PROD_NAME", null)
-            c.moveToFirst()
-            if (c.count > 0) do {
-                prods.add(
+            val cursor: android.database.Cursor = db.rawQuery("SELECT * FROM $productsTable ORDER BY $PROD_NAME", null)
+            cursor.moveToFirst()
+            if (cursor.count > 0) do {
+                products.add(
                         ProductInBase(
-                                c.getString(c.getColumnIndexOrThrow(PROD_NAME)),
-                                c.getFloat(c.getColumnIndexOrThrow(PROD_PROT)),
-                                c.getFloat(c.getColumnIndexOrThrow(PROD_FAT)),
-                                c.getFloat(c.getColumnIndexOrThrow(PROD_CARB)),
-                                c.getInt(c.getColumnIndexOrThrow(PROD_GI)),
-                                c.getFloat(c.getColumnIndexOrThrow(PROD_WEIGHT)),
-                                c.getInt(c.getColumnIndexOrThrow(PROD_MOBILE)) == 1,
-                                c.getInt(c.getColumnIndex(PROD_OWNER)),
-                                c.getInt(c.getColumnIndex(PROD_USAGE)),
-                                c.getInt(c.getColumnIndex(PROD_ID)))
+                                cursor.getString(cursor.getColumnIndexOrThrow(PROD_NAME)),
+                                cursor.getFloat(cursor.getColumnIndexOrThrow(PROD_PROTEINS)),
+                                cursor.getFloat(cursor.getColumnIndexOrThrow(PROD_FATS)),
+                                cursor.getFloat(cursor.getColumnIndexOrThrow(PROD_CARBS)),
+                                cursor.getFloat(cursor.getColumnIndexOrThrow(PROD_GI)),
+                                cursor.getFloat(cursor.getColumnIndexOrThrow(PROD_WEIGHT)),
+                                cursor.getInt(cursor.getColumnIndexOrThrow(PROD_MOBILE)) == 1,
+                                cursor.getInt(cursor.getColumnIndex(PROD_OWNER)),
+                                cursor.getInt(cursor.getColumnIndex(PROD_USAGE)),
+                                cursor.getInt(cursor.getColumnIndex(PROD_ID)))
                 )
-            } while (c.moveToNext())
-            c.close()
+            } while (cursor.moveToNext())
+            cursor.close()
             db.close()
-            return prods
+            return products
         }
 
-    val groups: ArrayList<ProductGroup>
+    val productsGroups: ArrayList<ProductGroup>
         get() {
             val groups: ArrayList<ProductGroup> = ArrayList()
             val db: SQLiteDatabase = readableDatabase
-            val c: android.database.Cursor = db.rawQuery("SELECT * FROM $groupTable ORDER BY $GROUP_SORT_INDX", null)
-            c.moveToFirst()
-            if (c.count > 0) do {
+            val cursor: android.database.Cursor = db.rawQuery("SELECT * FROM $groupTable ORDER BY $GROUP_SORT_INDEX", null)
+            cursor.moveToFirst()
+            if (cursor.count > 0) do {
                 groups.add(
                         ProductGroup(
-                                c.getString(c.getColumnIndexOrThrow(GROUP_NAME)),
-                                c.getInt(c.getColumnIndex(GROUP_ID)))
+                                cursor.getString(cursor.getColumnIndexOrThrow(GROUP_NAME)),
+                                cursor.getInt(cursor.getColumnIndex(GROUP_ID)))
                 )
-            } while (c.moveToNext())
-            c.close()
+            } while (cursor.moveToNext())
+            cursor.close()
             db.close()
             return groups
         }
 
-    fun putProducts(gr: ArrayList<ProductGroup>?, pr: ArrayList<ProductInBase>?) {
+    fun putProducts(productsGroup: ArrayList<ProductGroup>, productsInBase: ArrayList<ProductInBase>) {
         val db: SQLiteDatabase = this.writableDatabase
         //Чистим
         db.delete(groupTable, null, null)
-        db.delete(prodsTable, null, null)
-        if (gr != null) {
-            for (g in gr.indices) {
-                val cvG = ContentValues(2)
-                cvG.put(GROUP_NAME, gr[g]?.name)
-                cvG.put(GROUP_SORT_INDX, g + 1)
-                val gId: Long = db.insert(groupTable, null, cvG)
-                android.util.Log.i("sqlite", "" + gId)
-                db.beginTransaction()
-                try {
-                    if (pr != null) {
-                        for (p in pr.indices) {
-                            if (pr[p]?.owner == gr[g]?.id) {
-                                val cv_p = ContentValues(7)
-                                cv_p.put(PROD_NAME, pr[p]?.name)
-                                cv_p.put(PROD_PROT, pr[p]?.prot)
-                                cv_p.put(PROD_FAT, pr[p]?.fat)
-                                cv_p.put(PROD_CARB, pr[p]?.carb)
-                                cv_p.put(PROD_GI, pr[p]?.getGi())
-                                cv_p.put(PROD_WEIGHT, pr[p]?.getWeight())
-                                cv_p.put(PROD_MOBILE, if (pr[p]?.isMobile!!) 1 else 0)
-                                cv_p.put(PROD_OWNER, gId)
-                                cv_p.put(PROD_USAGE, pr[p]?.usage)
-                                db.insert(prodsTable, null, cv_p)
-                            }
-                        }
+        db.delete(productsTable, null, null)
+        for (group in productsGroup.indices) {
+            val contentValuesGroup = ContentValues(2)
+            contentValuesGroup.put(GROUP_NAME, productsGroup[group].name)
+            contentValuesGroup.put(GROUP_SORT_INDEX, group + 1)
+            val groupId: Long = db.insert(groupTable, null, contentValuesGroup)
+            android.util.Log.i("sqlite", "" + groupId)
+            db.beginTransaction()
+            try {
+                for (product in productsInBase.indices) {
+                    if (productsInBase[product].owner == productsGroup[group].id) {
+                        val contentValueProduct = ContentValues(7)
+                        contentValueProduct.put(PROD_NAME, productsInBase[product].name)
+                        contentValueProduct.put(PROD_PROTEINS, productsInBase[product].proteins)
+                        contentValueProduct.put(PROD_FATS, productsInBase[product].fats)
+                        contentValueProduct.put(PROD_CARBS, productsInBase[product].carbohydrates)
+                        contentValueProduct.put(PROD_GI, productsInBase[product].getGi())
+                        contentValueProduct.put(PROD_WEIGHT, productsInBase[product].getWeight())
+                        contentValueProduct.put(PROD_MOBILE, if (productsInBase[product].isMobile) 1 else 0)
+                        contentValueProduct.put(PROD_OWNER, groupId)
+                        contentValueProduct.put(PROD_USAGE, productsInBase[product].usage)
+                        db.insert(productsTable, null, contentValueProduct)
                     }
-                    db.setTransactionSuccessful()
-                } catch (e: android.database.SQLException) {
-                } finally {
-                    db.endTransaction()
                 }
+                db.setTransactionSuccessful()
+            } catch (e: android.database.SQLException) {
+            } finally {
+                db.endTransaction()
             }
         }
         db.close()
     }
 
-    fun putMenuProds(prods: ArrayList<ProductInMenu>?) {
+    fun putMenuProducts(productsInMenu: ArrayList<ProductInMenu>) {
         val db: SQLiteDatabase = this.writableDatabase
         //Сначала очищаем таблицу
         //db.rawQuery("DELETE FROM "+menuTable, null);
         db.delete(menuTable, null, null)
         db.beginTransaction()
         try {
-            if (prods != null) {
-                for (i in prods.indices) {
-                    //    db.insert(SOME_TABLE, null, SOME_VALUE);
-                    val cv = ContentValues(7)
-                    cv.put(PROD_NAME, prods[i].name)
-                    cv.put(PROD_PROT, prods[i].prot)
-                    cv.put(PROD_FAT, prods[i].fat)
-                    cv.put(PROD_CARB, prods[i].carb)
-                    cv.put(PROD_GI, prods[i].getGi())
-                    cv.put(PROD_WEIGHT, prods[i].getWeight())
-                    cv.put(MENU_SNACK, 0)
-                    db.insert(menuTable, null, cv)
-                }
+            for (product in productsInMenu.indices) {
+                //    db.insert(SOME_TABLE, null, SOME_VALUE);
+                val contentValues = ContentValues(7)
+                contentValues.put(PROD_NAME, productsInMenu[product].name)
+                contentValues.put(PROD_PROTEINS, productsInMenu[product].proteins)
+                contentValues.put(PROD_FATS, productsInMenu[product].fats)
+                contentValues.put(PROD_CARBS, productsInMenu[product].carbohydrates)
+                contentValues.put(PROD_GI, productsInMenu[product].getGi())
+                contentValues.put(PROD_WEIGHT, productsInMenu[product].getWeight())
+                contentValues.put(MENU_SNACK, 0)
+                db.insert(menuTable, null, contentValues)
             }
             db.setTransactionSuccessful()
         } catch (e: android.database.SQLException) {
@@ -237,104 +232,105 @@ class DatabaseManager(context: android.content.Context?) : SQLiteOpenHelper(cont
         db.close()
     }
 
-    fun deleteProduct(p: ProductInBase) {
+    fun deleteProduct(productInBase: ProductInBase) {
         val db: SQLiteDatabase = writableDatabase
-        db.delete(prodsTable, "$PROD_ID=?", arrayOf("" + p.id))
+        db.delete(productsTable, "$PROD_ID=?", arrayOf("" + productInBase.id))
         db.close()
     }
 
-    fun insertProduct(prod: ProductInBase) {
+    fun insertProduct(productInBase: ProductInBase) {
         val db: SQLiteDatabase = writableDatabase
-        val cv = ContentValues(9)
-        cv.put(PROD_NAME, prod.name)
-        cv.put(PROD_PROT, prod.prot)
-        cv.put(PROD_FAT, prod.fat)
-        cv.put(PROD_CARB, prod.carb)
-        cv.put(PROD_GI, prod.getGi())
-        cv.put(PROD_WEIGHT, prod.getWeight())
-        cv.put(PROD_MOBILE, 1)
-        cv.put(PROD_OWNER, prod.owner)
-        cv.put(PROD_USAGE, 0)
-        prod.id = (db.insert(prodsTable, null, cv) as Int)
+        val contentValues = ContentValues(9)
+        contentValues.put(PROD_NAME, productInBase.name)
+        contentValues.put(PROD_PROTEINS, productInBase.proteins)
+        contentValues.put(PROD_FATS, productInBase.fats)
+        contentValues.put(PROD_CARBS, productInBase.carbohydrates)
+        contentValues.put(PROD_GI, productInBase.getGi())
+        contentValues.put(PROD_WEIGHT, productInBase.getWeight())
+        contentValues.put(PROD_MOBILE, 1)
+        contentValues.put(PROD_OWNER, productInBase.owner)
+        contentValues.put(PROD_USAGE, 0)
+        productInBase.id = (db.insert(productsTable, null, contentValues).toInt())
         db.close()
     }
 
-    fun changeProduct(prod: ProductInBase) {
+    fun changeProduct(productInBase: ProductInBase) {
         val db: SQLiteDatabase = writableDatabase
-        val cv = ContentValues(9)
-        cv.put(PROD_NAME, prod.name)
-        cv.put(PROD_PROT, prod.prot)
-        cv.put(PROD_FAT, prod.fat)
-        cv.put(PROD_CARB, prod.carb)
-        cv.put(PROD_GI, prod.getGi())
-        cv.put(PROD_WEIGHT, prod.getWeight())
-        cv.put(PROD_MOBILE, if (prod.isMobile) 1 else 0)
-        cv.put(PROD_OWNER, prod.owner)
-        cv.put(PROD_USAGE, prod.usage)
-        db.update(prodsTable, cv, "$PROD_ID=?", arrayOf("" + prod.id))
+        val contentValues = ContentValues(9)
+        contentValues.put(PROD_NAME, productInBase.name)
+        contentValues.put(PROD_PROTEINS, productInBase.proteins)
+        contentValues.put(PROD_FATS, productInBase.fats)
+        contentValues.put(PROD_CARBS, productInBase.carbohydrates)
+        contentValues.put(PROD_GI, productInBase.getGi())
+        contentValues.put(PROD_WEIGHT, productInBase.getWeight())
+        contentValues.put(PROD_MOBILE, if (productInBase.isMobile) 1 else 0)
+        contentValues.put(PROD_OWNER, productInBase.owner)
+        contentValues.put(PROD_USAGE, productInBase.usage)
+        db.update(productsTable, contentValues, "$PROD_ID=?", arrayOf("" + productInBase.id))
         db.close()
     }
 
-    val user: org.diacalc.android.maths.User?
+    val user: org.diacalc.android.maths.User
         get() {
             val db: SQLiteDatabase = readableDatabase
-            val c: android.database.Cursor = db.rawQuery("SELECT * FROM $userTable", null)
-            var user: org.diacalc.android.maths.User? = null
-            c.moveToFirst()
-            user = if (c.count > 0) {
+            val cursor: android.database.Cursor = db.rawQuery("SELECT * FROM $userTable", null)
+            var user: User?
+            cursor.moveToFirst()
+            user = if (cursor.count > 0) {
                 org.diacalc.android.maths.User(
-                        c.getString(c.getColumnIndex(USER_LOGIN)),
-                        c.getString(c.getColumnIndex(USER_PASS)),
-                        c.getString(c.getColumnIndex(USER_SERVER)),
+                        cursor.getString(cursor.getColumnIndex(USER_LOGIN)),
+                        cursor.getString(cursor.getColumnIndex(USER_PASS)),
+                        cursor.getString(cursor.getColumnIndex(USER_SERVER)),
                         Factors(
-                                c.getFloat(c.getColumnIndex(USER_K1)),
-                                c.getFloat(c.getColumnIndex(USER_K2)),
-                                c.getFloat(c.getColumnIndex(USER_K3)),
-                                c.getFloat(c.getColumnIndex(USER_BE)),
+                                cursor.getFloat(cursor.getColumnIndex(USER_K1)),
+                                cursor.getFloat(cursor.getColumnIndex(USER_K2)),
+                                cursor.getFloat(cursor.getColumnIndex(USER_UNIT_COST_OF_INSULIN)),
+                                cursor.getFloat(cursor.getColumnIndex(USER_BASE_UNIT)),
                                 Factors.DIRECT
                         ),
-                        c.getInt(c.getColumnIndex(USER_ROUND)),
-                        c.getInt(c.getColumnIndex(USER_PLASMA)) == 1,
-                        c.getInt(c.getColumnIndex(USER_MMOL)) == 1,
-                        c.getFloat(c.getColumnIndex(USER_S1)),
-                        c.getFloat(c.getColumnIndex(USER_S2)),
-                        c.getInt(c.getColumnIndex(USER_TIME_SENSE)) == 1,
-                        c.getFloat(c.getColumnIndex(USER_TARGET)),
-                        c.getFloat(c.getColumnIndex(USER_LOW)),
-                        c.getFloat(c.getColumnIndex(USER_HI)),
-                        c.getInt(c.getColumnIndex(USER_MENU_INFO))
+                        cursor.getInt(cursor.getColumnIndex(USER_ROUND)),
+                        cursor.getInt(cursor.getColumnIndex(USER_PLASMA)) == 1,
+                        cursor.getInt(cursor.getColumnIndex(USER_MMOL)) == 1,
+                        cursor.getFloat(cursor.getColumnIndex(USER_HIGH_VALUE_SUGAR)),
+                        cursor.getFloat(cursor.getColumnIndex(USER_TARGET_VALUE_SUGAR)),
+                        cursor.getInt(cursor.getColumnIndex(USER_TIME_SENSE)) == 1,
+                        cursor.getFloat(cursor.getColumnIndex(USER_TARGET_SUGAR)),
+                        cursor.getFloat(cursor.getColumnIndex(USER_LOW_SUGAR)),
+                        cursor.getFloat(cursor.getColumnIndex(USER_HIGH_SUGAR)),
+                        cursor.getInt(cursor.getColumnIndex(USER_MENU_INFO))
                 )
             } else {
                 org.diacalc.android.maths.User("noname", "", org.diacalc.android.maths.User.DEF_SERVER, Factors(),
                         org.diacalc.android.maths.User.ROUND_1, org.diacalc.android.maths.User.WHOLE, org.diacalc.android.maths.User.MMOL, 5.6f, 5.6f,
                         org.diacalc.android.maths.User.NO_TIMESENSE, 5.6f, 3.2f, 7.8f, 0)
             }
-            c.close()
+            cursor.close()
             db.close()
             return user
         }
 
-    fun putUser(us: org.diacalc.android.maths.User) {
+    fun putUser(user: org.diacalc.android.maths.User) {
         val db: SQLiteDatabase = this.writableDatabase
-        val cv = ContentValues(16)
-        cv.put(USER_LOGIN, us.login)
-        cv.put(USER_PASS, us.pass)
-        cv.put(USER_SERVER, us.server)
-        cv.put(USER_K1, us.factors.k1Value)
-        cv.put(USER_K2, us.factors.getK2())
-        cv.put(USER_K3, us.factors.k3)
-        cv.put(USER_BE, us.factors.bEValue)
-        cv.put(USER_ROUND, us.round)
-        cv.put(USER_PLASMA, if (us.isPlasma) 1 else 0) //Если плазма, то пишем 1, иначе нуль
-        cv.put(USER_MMOL, if (us.isMmol) 1 else 0)
-        cv.put(USER_S1, us.s1)
-        cv.put(USER_S2, us.s2)
-        cv.put(USER_TIME_SENSE, if (us.isTimeSense) 1 else 0)
-        cv.put(USER_TARGET, us.targetSugar)
-        cv.put(USER_LOW, us.lowSugar)
-        cv.put(USER_HI, us.hiSugar)
-        cv.put(USER_MENU_INFO, us.menuInfo)
-        db.update(userTable, cv, null, null)
+        val contentValues = ContentValues(16)
+        contentValues.apply { 
+            put(USER_LOGIN, user.login)
+            put(USER_PASS, user.pass)
+            put(USER_SERVER, user.server)
+            put(USER_K1, user.factorsProperty.k1Value)
+            put(USER_K2, user.factorsProperty.getK2())
+            put(USER_UNIT_COST_OF_INSULIN, user.factorsProperty.unitCostOfInsulin)
+            put(USER_BASE_UNIT, user.factorsProperty.baseUnitValue)
+            put(USER_ROUND, user.round)
+            put(USER_PLASMA, if (user.isPlasma) 1 else 0) //Если плазма, то пишем 1, иначе нуль
+            put(USER_MMOL, if (user.isMmol) 1 else 0)
+            put(USER_HIGH_VALUE_SUGAR, user.highBloodSugar)
+            put(USER_TARGET_VALUE_SUGAR, user.bloodSugarTargets)
+            put(USER_TIME_SENSE, if (user.isTimeSense) 1 else 0)
+            put(USER_TARGET_SUGAR, user.targetSugar)
+            put(USER_LOW_SUGAR, user.lowSugar)
+            put(USER_HIGH_SUGAR, user.hiSugar)
+            put(USER_MENU_INFO, user.menuInfo) }
+        db.update(userTable, contentValues, null, null)
         db.close()
     }
 
@@ -345,13 +341,13 @@ class DatabaseManager(context: android.content.Context?) : SQLiteOpenHelper(cont
         const val dbVersion = 3
         const val userTable = "user"
         const val groupTable = "prodgr"
-        const val prodsTable = "products"
+        const val productsTable = "products"
         const val menuTable = "menu"
         private const val PROD_ID = "idProd"
         private const val PROD_NAME = "name"
-        private const val PROD_PROT = "prot"
-        private const val PROD_FAT = "fat"
-        private const val PROD_CARB = "carb"
+        private const val PROD_PROTEINS = "prot"
+        private const val PROD_FATS = "fat"
+        private const val PROD_CARBS = "carb"
         private const val PROD_GI = "gi"
         private const val PROD_WEIGHT = "weight"
         private const val PROD_MOBILE = "mobile"
@@ -364,20 +360,20 @@ class DatabaseManager(context: android.content.Context?) : SQLiteOpenHelper(cont
         private const val USER_SERVER = "server"
         private const val USER_MMOL = "mmol"
         private const val USER_PLASMA = "plasma"
-        private const val USER_TARGET = "targetSh"
-        private const val USER_LOW = "lowSugar"
-        private const val USER_HI = "hiSugar"
+        private const val USER_TARGET_SUGAR = "targetSh"
+        private const val USER_LOW_SUGAR = "lowSugar"
+        private const val USER_HIGH_SUGAR = "hiSugar"
         private const val USER_ROUND = "round"
-        private const val USER_BE = "BE"
+        private const val USER_BASE_UNIT = "BE"
         private const val USER_K1 = "k1"
         private const val USER_K2 = "k2"
-        private const val USER_K3 = "k3"
-        private const val USER_S1 = "sh1"
-        private const val USER_S2 = "sh2"
+        private const val USER_UNIT_COST_OF_INSULIN = "k3"
+        private const val USER_HIGH_VALUE_SUGAR = "sh1"
+        private const val USER_TARGET_VALUE_SUGAR = "sh2"
         private const val USER_TIME_SENSE = "timeSense"
         private const val USER_MENU_INFO = "menuInfo"
         private const val GROUP_ID = "idGroup"
         private const val GROUP_NAME = "name"
-        private const val GROUP_SORT_INDX = "sortIndx"
+        private const val GROUP_SORT_INDEX = "sortIndx"
     }
 }

@@ -37,23 +37,23 @@ package org.diacalc.android.products
  *
  * @author Toporov Konstantin <www.diacalc.org>
 </www.diacalc.org> */
-class ProductInMenu : ProductW {
+class ProductInMenu : ProductFeatures {
     var id = -1
         private set
 
     //private int owner;
-    constructor(newName: String?, newProt: Float, newFat: Float, newCarb: Float,
-                newGi: Int, newWeight: Float, idProd: Int) : super(newName, newProt, newFat, newCarb, newGi, newWeight) {
-        id = idProd
+    constructor(newName: String, newProteins: Float, newFats: Float, newCarbohydrates: Float,
+                newGi: Float, newWeight: Float, idProduct: Int) : super(newName, newProteins, newFats, newCarbohydrates, newGi, newWeight) {
+        id = idProduct
     }
 
-    constructor(pr: ProductInBase) : super(pr.name,
-            pr.prot, pr.fat, pr.carb, pr.getGi(), 0f) {
-        id = pr.id
+    constructor(productInBase: ProductInBase) : super(productInBase.name,
+            productInBase.proteins, productInBase.fats, productInBase.carbohydrates, productInBase.getGi(), 0f) {
+        id = productInBase.id
     }
 
-    constructor(prod: ProductInMenu) : super(prod) {
-        prod.id = id
+    constructor(productInMenu: ProductInMenu) : super(productInMenu) {
+        productInMenu.id = id
     }
 
     fun setSaved(v: Int) {

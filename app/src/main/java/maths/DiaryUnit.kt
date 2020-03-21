@@ -33,7 +33,7 @@
  */
 package org.diacalc.android.maths
 
-import org.diacalc.android.products.ProductW
+import org.diacalc.android.products.ProductFeatures
 
 /**
  *
@@ -49,7 +49,7 @@ class DiaryUnit {
         private set
     private var fcs: Factors? = null
     private var dose = 0f
-    private var prod: ProductW? = null
+    private var prod: ProductFeatures? = null
 
     constructor(id: Int, time: Long, comment: String, sh: Float) { //create record about sugar
         this.id = id
@@ -61,7 +61,7 @@ class DiaryUnit {
     }
 
     constructor(id: Int, time: Long, comment: String, sh1: Float, sh2: Float,
-                fc: Factors?, dose: Float, prod: ProductW?) { //create record about meal
+                fc: Factors?, dose: Float, prod: ProductFeatures?) { //create record about meal
         this.id = id
         this.time = time
         this.comment = comment
@@ -86,7 +86,7 @@ class DiaryUnit {
         return id
     }
 
-    var product: ProductW?
+    var product: ProductFeatures?
         get() = if (type == SUGAR) null else prod
         set(prod) {
             this.prod = prod

@@ -41,31 +41,32 @@ class Sugar {
     var value = 5.6f //храним в ммоль в цельной крови
 
     constructor() {}
-    constructor(in_s: Sugar) {
-        value = in_s.value
+    constructor(sugar: Sugar) {
+        value = sugar.value
     }
 
-    constructor(s: Float) {
-        value = s
+    constructor(sugar: Float) {
+        value = sugar
     }
 
     fun setSugar(sugar: Float, mmol: Boolean, plasma: Boolean) {
         value = if (mmol) sugar else sugar / GLUC
-        if (plasma) value = value / PLASM
+        if (plasma) value /= PLASM
     }
 
     fun getSugar(mmol: Boolean, plasma: Boolean): Float {
-        val v: Float
-        v = if (mmol) value else value * GLUC
-        return if (plasma) v * PLASM else v
+        val valueSugar: Float = if (mmol) value else value * GLUC
+        return if (plasma) valueSugar * PLASM else valueSugar
     }
 
     companion object {
-        const val MMOL = true
+
+        private const val GLUC = 18.015588f
+        private const val PLASM = 1.12f
+/*      const val MMOL = true
         const val MGDL = false
         const val PLASMA = true
         const val WHOLE = false
-        private const val GLUC = 18.015588f
-        private const val PLASM = 1.12f
+ */
     }
 }

@@ -35,6 +35,7 @@ package org.diacalc.android.maths
 
 
 import java.util.Hashtable
+import kotlin.math.*
 
 /************************************************************************
  * *Mathematic expression evaluator.* Supports the following functions:
@@ -93,7 +94,7 @@ open class MathEvaluator {
     /***
      * sets the expression
      */
-    fun setExpression(s: String?) {
+    private fun setExpression(s: String?) {
         expression = s
     }
 
@@ -168,7 +169,7 @@ open class MathEvaluator {
 
     private fun getDouble(s: String?): Double? {
         if (s == null) return null
-        var res: Double? = null
+        val res: Double
         try {
             res = s.toDouble()
         } catch (e: java.lang.Exception) {
@@ -199,8 +200,8 @@ open class MathEvaluator {
         }
 
         @Throws(java.lang.Exception::class)
-        private fun init(parent: Node?, s: String, level: Int) {
-            var s = s
+        private fun init(parent: Node?, _s: String, level: Int) {
+            var s = _s
             s = removeIllegalCharacters(s)
             s = removeBrackets(s)
             s = addZero(s)
@@ -250,7 +251,7 @@ open class MathEvaluator {
             temp = getNextWord(temp)
             if (operators != null) {
                 for (i in operators.indices) {
-                    if (temp.startsWith(operators!![i]!!.operator)) return operators!![i]
+                    if (temp.startsWith(operators[i]!!.operator)) return operators[i]
                 }
             }
             return null
@@ -296,7 +297,7 @@ open class MathEvaluator {
          */
         fun trace() {
             val op = if (operator == null) " " else operator!!.operator
-            _D("$op : $string")
+            _D()
             if (hasChild()) {
                 if (hasLeft()) left!!.trace()
                 if (hasRight()) right!!.trace()
@@ -348,7 +349,7 @@ open class MathEvaluator {
             return res
         }
 
-        private fun _D(s: String?) {
+        private fun _D() {
             var nbSpaces = ""
             for (i in 0 until level) nbSpaces += "  "
         }
@@ -364,17 +365,32 @@ open class MathEvaluator {
         }
 
         private fun evaluateExpression(o: Operator?, f1: Double?, f2: Double?): Double? {
-            val op = o!!.operator
+            val op = o?.operator
             var res: Double? = null
-            if ("+" == op) res = f1!!.toDouble() + f2!!.toDouble() else if ("-" == op) res = f1!!.toDouble() - f2!!.toDouble() else if ("*" == op) res = f1!!.toDouble() * f2!!.toDouble() else if ("/" == op) res = f1!!.toDouble() / f2!!.toDouble() else if ("%" == op) res = f1!!.toDouble() % f2!!.toDouble() else if ("&" == op) res = f1!!.toDouble() + f2!!.toDouble() // todo
-            else if ("|" == op) res = f1!!.toDouble() + f2!!.toDouble() // todo
-            else if ("cos" == op) res = java.lang.Math.cos(f1!!.toDouble()) else if ("sin" == op) res = java.lang.Math.sin(f1!!.toDouble()) else if ("tan" == op) res = java.lang.Math.tan(f1!!.toDouble()) else if ("sqr" == op) res = f1!!.toDouble() * f1.toDouble() else if ("sqrt" == op) res = java.lang.Math.sqrt(f1!!.toDouble()) else if ("min" == op) res = java.lang.Math.min(f1!!.toDouble(), f2!!.toDouble()) else if ("max" == op) res = java.lang.Math.max(f1!!.toDouble(), f2!!.toDouble()) else if ("floor" == op) res = java.lang.Math.floor(f1!!.toDouble()) else if ("ceil" == op) res = java.lang.Math.ceil(f1!!.toDouble()) else if ("abs" == op) res = java.lang.Math.abs(f1!!.toDouble()) else if ("neg" == op) res = -f1!!.toDouble()
+            when (op) {
+                "+" -> res = f1!!.toDouble() + f2!!.toDouble()
+                "-" -> res = f1!!.toDouble() - f2!!.toDouble()
+                "*" -> res = f1!!.toDouble() * f2!!.toDouble()
+                "/" -> res = f1!!.toDouble() / f2!!.toDouble()
+                "%" -> res = f1!!.toDouble() % f2!!.toDouble()
+                "&" -> res = f1!!.toDouble() + f2!!.toDouble() // todo
+                "|" -> res = f1!!.toDouble() + f2!!.toDouble() // todo
+                "cos" -> res = cos(f1!!.toDouble())
+                "sin" -> res = sin(f1!!.toDouble())
+                "tan" -> res = tan(f1!!.toDouble())
+                "sqr" -> res = f1!!.toDouble() * f1.toDouble()
+                "sqrt" -> res = sqrt(f1!!.toDouble())
+                "min" -> res = f1!!.toDouble().coerceAtMost(f2!!.toDouble())
+                "max" -> res = f1!!.toDouble().coerceAtLeast(f2!!.toDouble())
+                "floor" -> res = floor(f1!!.toDouble())
+                "ceil" -> res = ceil(f1!!.toDouble())
+                "abs" -> res = abs(f1!!.toDouble())
+                "neg" -> res = -f1!!.toDouble()
+                //else if  ( "rnd".equals(op) ) 	res = new Double( Math.random() * f1.doubleValue() );
+            }
             //else if  ( "rnd".equals(op) ) 	res = new Double( Math.random() * f1.doubleValue() );
             return res
         }
 
-        protected fun _D(s: String?) {
-            java.lang.System.err.println(s)
-        }
     }
 }

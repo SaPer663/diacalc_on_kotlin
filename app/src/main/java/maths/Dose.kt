@@ -33,115 +33,118 @@
  */
 package org.diacalc.android.maths
 
-import org.diacalc.android.products.ProductW
+import org.diacalc.android.products.ProductFeatures
 
 /**
  *
  * @author Toporov Konstantin <www.diacalc.org>
 </www.diacalc.org> */
 class Dose {
-    private lateinit var prod: ProductW
-    private lateinit var fact: Factors
-    private lateinit var dps: DPS
-    private var needReCalc: Boolean = false
+    private var productFeatures: ProductFeatures
+    private var factors: Factors
+    private var dps: DPS
+    private var needRecalculation: Boolean = false
     private var calories = 0f
     private var slowDose = 0f //медленная доза
-    private var carbSlowDose = 0f
-    private var carbFastDose = 0f
+    private var carbohydratesSlowDose = 0f
+    private var carbohydratesFastDose = 0f
 
 
-    constructor(newProd: ProductW?, newFs: Factors?, newDps: DPS) {
-        prod = ProductW(newProd)
-        fact = newFs?.let { Factors(it) }!!
-        dps = newDps?.let { DPS(it) }!!
-        needReCalc = true
+    constructor(newProductFeatures: ProductFeatures, newFactors: Factors, newDps: DPS) {
+        productFeatures = ProductFeatures(newProductFeatures)
+        factors = Factors(newFactors)
+        dps = DPS(newDps)
+        needRecalculation = true
     }
 
     constructor(newDose: Dose) {
-        prod = ProductW(newDose.prod)
-        fact = Factors(newDose.fact)
+        productFeatures = ProductFeatures(newDose.productFeatures)
+        factors = Factors(newDose.factors)
         dps = DPS(newDose.dps)
-        needReCalc = true
+        needRecalculation = true
     }
 
     constructor() {
-        prod = ProductW()
-        fact = Factors()
+        productFeatures = ProductFeatures()
+        factors = Factors()
         dps = DPS()
-        needReCalc = true
+        needRecalculation = true
     }
 
-    constructor(newProd: ProductW, newFs: Factors?, newDps: Unit?) {
-        prod = ProductW(newProd)
-        fact = newFs?.let { Factors(it) }!!
+/*
+    constructor(newMassOfProducts: ProductW, newFactors: Factors, newDps: DPS) {
+        massOfProducts = ProductW(newMassOfProducts)
+        factors = newFactors?.let { Factors(it) }!!
         dps = newDps?.let { DPS(it) }!!
-        needReCalc = true
+        needRecalculation = true
     }
+*/
 
-    private fun calcDoses() {
-        val kWH: Float = PROT * prod.allProt
-        val kFAT: Float = FAT * prod.allFat
-        val kUG: Float = CARB * prod.allCarb
-        calories = kWH + kFAT + kUG
-        slowDose = fact.getK2() * kWH / 100f + fact.getK2() * kFAT / 100f
+    private fun calculateDoses() {
+        val proteinsCount: Float = PROTEINS * productFeatures.allProteins
+        val fatsCount: Float = FATS * productFeatures.allFats
+        val carbohydratesCount: Float = CARBOHYDRATES * productFeatures.allCarbohydrates
+        val productGi = productFeatures.getGi()
+        calories = proteinsCount + fatsCount + carbohydratesCount
+        slowDose = factors.getK2() * proteinsCount / 100f + factors.getK2() * fatsCount / 100f
         //    (    WH Doze   )   (   Fat Doze     )
 
         //здесь 1 надо заменить на коэффициент позволяющий учитывать углеводы
         //по количеству
-        carbSlowDose = fact.getK1(Factors.DIRECT) / fact.getBE(Factors.DIRECT) *
-                (prod.allCarb * (100f - prod.getGi() as Float) / 100f)
-        carbFastDose = fact.getK1(Factors.DIRECT) / fact.getBE(Factors.DIRECT) *
-                (prod.allCarb * prod.getGi() as Float / 100f)
-        needReCalc = false
+        carbohydratesSlowDose = factors.getK1(Factors.DIRECT) / factors.getBaseUnit(Factors.DIRECT) *
+                (productFeatures.allCarbohydrates * (100f - productGi) / 100f)
+        carbohydratesFastDose = factors.getK1(Factors.DIRECT) / factors.getBaseUnit(Factors.DIRECT) *
+                (productFeatures.allCarbohydrates * productGi / 100f)
+        needRecalculation = false
     }
 
-    fun setProduct(newProduct: ProductW?) {
-        prod = ProductW(newProduct)
-        needReCalc = true
+    fun setProduct(newProduct: ProductFeatures) {
+        productFeatures = ProductFeatures(newProduct)
+        needRecalculation = true
     }
 
     fun setFactors(newFs: Factors?) {
-        fact = newFs?.let { Factors(it) }!!
-        needReCalc = true
+        factors = newFs?.let { Factors(it) }!!
+        needRecalculation = true
     }
 
     fun setDPS(newDps: DPS?) {
         dps = newDps?.let { DPS(it) }!!
-        needReCalc = true
+        needRecalculation = true
     }
 
     fun getSlowDose(): Float {
-        if (needReCalc) calcDoses()
+        if (needRecalculation) calculateDoses()
         return slowDose
     }
 
-    fun getCarbSlowDose(): Float {
-        if (needReCalc) calcDoses()
-        return carbSlowDose
+    fun getCarbohydratesSlowDose(): Float {
+        if (needRecalculation) calculateDoses()
+        return carbohydratesSlowDose
     }
 
-    fun getCarbFastDose(): Float {
-        if (needReCalc) calcDoses()
-        return carbFastDose
+    fun getCarbohydratesFastDose(): Float {
+        if (needRecalculation) calculateDoses()
+        return carbohydratesFastDose
     }
 
     fun getCalories(): Float {
-        if (needReCalc) calcDoses()
+        if (needRecalculation) calculateDoses()
         return calories
     }
 
     val wholeDose: Float
         get() {
-            if (needReCalc) calcDoses()
-            return slowDose + carbSlowDose + carbFastDose + dps.dPSDose
+            if (needRecalculation) calculateDoses()
+            return slowDose + carbohydratesSlowDose + carbohydratesFastDose + dps.dPSDose
         }
 
     val dPSDose: Float
         get() = dps.dPSDose
 
     companion object {
-        const val PROT = 4.0f
-        const val FAT = 9.0f
-        const val CARB = 4.0f
+        const val PROTEINS = 4.0f
+        const val FATS = 9.0f
+        const val CARBOHYDRATES = 4.0f
     }
 }

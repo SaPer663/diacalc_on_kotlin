@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import org.diacalc.android.manager.DatabaseManager
-import kotlin.random.Random.Default.Companion
 
 class DCJStart : Activity() {
     /** Called when the activity is first created.  */
@@ -12,30 +11,30 @@ class DCJStart : Activity() {
         super.onCreate(savedInstanceState)
         // Restore UI state from the savedInstanceState.
         setContentView(R.layout.main)
-        android.util.Log.i(DCJStart.Companion.DCJ_TAG, "on create!!!")
+        android.util.Log.i(DCJ_TAG, "on create!!!")
     }
 
     override fun onKeyDown(keyCode: Int, event: android.view.KeyEvent): Boolean {
         if (keyCode == android.view.KeyEvent.KEYCODE_MENU) {
-            showDialog(DCJStart.Companion.DIALOG_ABOUTBOX_ID)
+            showDialog(DIALOG_ABOUTBOX_ID)
             return true
         }
         return super.onKeyDown(keyCode, event)
     }
 
-    fun onMenuBtnClick(v: android.view.View?) { //Запускаем форму меню
+    fun onMenuBtnClick() { //Запускаем форму меню
         val intent = Intent()
         intent.setClass(this, MenuForm::class.java)
         startActivity(intent)
     }
 
-    fun onSettingsBtnClick(v: android.view.View?) { //Запускаем настройки
+    fun onSettingsBtnClick() { //Запускаем настройки
         val intent = Intent()
         intent.setClass(this, SettingsForm::class.java)
         startActivity(intent)
     }
 
-    fun onProductsBtnClick(v: android.view.View?) { //Запускаем продукты
+    fun onProductsBtnClick() { //Запускаем продукты
         val intent = Intent()
         intent.setClass(this, ProdForm::class.java)
         startActivity(intent)
@@ -43,7 +42,7 @@ class DCJStart : Activity() {
 
     override fun onCreateDialog(id: Int): android.app.Dialog? {
         return when (id) {
-            DCJStart.Companion.DIALOG_ABOUTBOX_ID -> createAboutBox()
+            DIALOG_ABOUTBOX_ID -> createAboutBox()
             else -> null
         }
     }
@@ -61,16 +60,16 @@ class DCJStart : Activity() {
         if (isFinishing) {
             val mgr = DatabaseManager(this)
             //Нормальный выход из приложения, сохраняем данные
-            (application as DataPocket).storeMenuProds(mgr)
-            (application as DataPocket).storeUser(mgr)
+            (application as DataPocket).saveProductMenuToBD(mgr)
+            (application as DataPocket).saveUserToBD(mgr)
             //Потом сбрасывам в ноль указатели, что заставит при
 //повторном обращении к ним загрузить их снова из БД
-            (this.application as DataPocket).setAllPointers2Null()
+            (this.application as DataPocket).resettingToZeroPointers()
         }
     }
     companion object  {
-        private  val  DCJ_TAG:/*@@gxicbm@@*/kotlin.String? = "DCJmobile"
-        private const val  DIALOG_ABOUTBOX_ID:/*@@dwkqiq@@*/Int = 0
+        private  val  DCJ_TAG: String? = "DCJmobile"
+        private const val  DIALOG_ABOUTBOX_ID: Int = 0
     }
 }
 /*@Override

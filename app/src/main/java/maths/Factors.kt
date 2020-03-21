@@ -3,61 +3,63 @@ package org.diacalc.android.maths
 class Factors {
     private var k1 = 0f
     private var k2: Float
-    var k3: Float
-    private var be: Float
+    var unitCostOfInsulin: Float
+    private var baseUnit: Float
 
     constructor() {
         k1 = 1f
         k2 = 0f
-        k3 = 10f
-        be = 10f
+        unitCostOfInsulin = 10f
+        baseUnit = 10f
     }
 
     private fun convertK1toIndirect(newK1: Float, newXE: Float): Float {
-        return if (newK1 > 0) 10 * newXE / newK1 else 0f
+        return  10 * newXE / newK1
     }
 
-    constructor(newk1: Float, newk2: Float, newk3: Float, newXE: Float,
+    constructor(newk1: Float, newk2: Float, newUnitCostOfInsulin: Float, newXE: Float,
                 direction: Boolean) {
-        if (direction) {
-            k1 = if (newk1 >= 0) newk1 else 10f
-            k1 = convertK1toIndirect(k1, if (newXE > 0) newXE else 1f)
-        } else k1 = if (newk1 >= 0) newk1 else 1f
+        k1 = if (direction) {
+            convertK1toIndirect(if (newk1 >= 0) newk1 else 10f, if (newXE > 0) newXE else 1f)
+        }
+        else if (newk1 >= 0) newk1 else 1f
         k2 = if (newk2 >= 0) newk2 else 0f
-        k3 = newk3
+        unitCostOfInsulin = newUnitCostOfInsulin
         //Тут пересчет не нужен, т.к. к1 все равно пересчитывается и приводится к
         //значению хе 10 гр.
-        be = if (direction) 10f else if (newXE > 0) newXE else 10f
+        baseUnit = if (direction) 10f else if (newXE > 0) newXE else 10f
     }
-
-    constructor(newk1: Float, newk2: Float, newk3: Float, newBE: Float) {
+/*
+    constructor(newk1: Float, newk2: Float, newUnitCostOfInsulin: Float, newBaseUnit: Float) {
         k1 = if (newk1 >= 0) newk1 else 1f
         k2 = newk2
-        k3 = newk3
-        be = if (newBE > 0) newBE else 10f
+        unitCostOfInsulin = newUnitCostOfInsulin
+        baseUnit = if (newBaseUnit > 0) newBaseUnit else 10f
     }
-
-    constructor(newFs: Factors) {
-        k1 = newFs.getK1(DIRECT)
-        k2 = newFs.getK2()
-        k3 = newFs.k3
-        be = newFs.getBE(DIRECT)
+*/
+    constructor(newFactors: Factors) {
+        k1 = newFactors.getK1(DIRECT)
+        k2 = newFactors.getK2()
+        unitCostOfInsulin = newFactors.unitCostOfInsulin
+        baseUnit = newFactors.getBaseUnit(DIRECT)
     }
 
     var k1Value: Float
         get() = k1
-        set(v) {
-            k1 = if (v >= 0) v else 1f
+        set(value) {
+            k1 = if (value >= 0) value else 1f
         }
 
-    var bEValue: Float
-        get() = be
-        set(v) {
-            be = if (v > 0) v else 10f
+    var baseUnitValue: Float
+        get() = baseUnit
+        set(value) {
+            baseUnit = if (value > 0) value else 10f
         }
 
     fun getK1(direction: Boolean): Float {
-        return if (direction) if (k1 > 0) be / k1 else 0f else k1
+        return if (direction) {
+            if (k1 > 0) baseUnit / k1 else 0f
+        } else k1
     }
 
     fun getK2(): Float {
@@ -66,17 +68,17 @@ class Factors {
 
 
 
-    fun getBE(direction: Boolean): Float {
-        return if (direction) 1f else be
+    fun getBaseUnit(direction: Boolean): Float {
+        return if (direction) 1f else baseUnit
     }
 
-    fun setK1XE(newk1: Float, newXE: Float, direction: Boolean) {
+    fun setK1BaseUnit(newk1: Float, newBaseUnit: Float, direction: Boolean) {
         if (direction) {
-            k1 = convertK1toIndirect(if (newk1 >= 0) newk1 else 10f, if (newXE > 0) newXE else 1f)
-            be = 10f
+            k1 = convertK1toIndirect(if (newk1 >= 0) newk1 else 10f, if (newBaseUnit > 0) newBaseUnit else 1f)
+            baseUnit = 10f
         } else {
             k1 = if (newk1 >= 0) newk1 else 1f
-            be = if (newXE > 0) newXE else 10f
+            baseUnit = if (newBaseUnit > 0) newBaseUnit else 10f
         }
     }
 

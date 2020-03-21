@@ -39,7 +39,7 @@ package org.diacalc.android.maths;
  * @author Toporov Konstantin <www.diacalc.org>
  */
 
-import org.diacalc.android.products.ProductW;
+import org.diacalc.android.products.ProductFeatures;
 
 public class DiaryUnit {
     public final static int MENU = 0;

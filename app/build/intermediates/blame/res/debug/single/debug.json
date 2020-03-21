@@ -1,98 +1,98 @@
 [
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/menu_menu_contxmenu.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/menu/menu_contxmenu.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/menu_menu_contxmenu.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/menu/menu_contxmenu.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout_settings_bloodtab.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout/settings_bloodtab.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout-land_settings_menutab.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout-land/settings_menutab.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout_menu_coefs_dlg.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout/menu_coefs_dlg.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_menu_coefs_dlg.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/menu_coefs_dlg.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout_product_dialog.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout/product_dialog.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_settings_menutab.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/settings_menutab.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/drawable-hdpi_icon.png.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/drawable-hdpi/icon.png"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/drawable-mdpi_icon.png.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/drawable-mdpi/icon.png"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout_menu_drs_dlg.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout/menu_drs_dlg.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout-land_menu.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout-land/menu.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout_prods.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout/prods.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_settings_bloodtab.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/settings_bloodtab.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout_main.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout/main.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/xml_searchable.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/xml/searchable.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/xml_searchable.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/xml/searchable.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_menu_drs_dlg.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/menu_drs_dlg.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout_aboutbox.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout/aboutbox.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/menu_prods_context.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/menu/prods_context.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/menu_prods.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/menu/prods.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_product_dialog.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/product_dialog.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/drawable-ldpi_icon.png.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/drawable-ldpi/icon.png"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_aboutbox.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/aboutbox.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout_settings.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout/settings.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_prods.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/prods.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout-land_product_dialog.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout-land/product_dialog.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/menu_prods.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/menu/prods.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout-land_menu.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout-land/menu.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_menu.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/menu.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/menu_prods_context.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/menu/prods_context.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout-land_settings_bloodtab.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout-land/settings_bloodtab.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/menu_menu.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/menu/menu.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/drawable-ldpi_icon.png.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/drawable-ldpi/icon.png"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout-land_settings_bloodtab.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout-land/settings_bloodtab.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/menu_menu.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/menu/menu.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout-land_settings_menutab.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout-land/settings_menutab.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout-land_product_dialog.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout-land/product_dialog.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout_product_item.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout/product_item.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_main.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/main.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout_settings_menutab.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout/settings_menutab.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout-land_main.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout-land/main.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/drawable-mdpi_icon.png.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/drawable-mdpi/icon.png"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/drawable-hdpi_icon.png.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/drawable-hdpi/icon.png"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout-land_main.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout-land/main.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_settings.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/settings.xml"
     },
     {
-        "merged": "/home/saper663/Загрузки/loads/DCJmobile1/app/build/intermediates/res/merged/debug/layout_menu.xml.flat",
-        "source": "/home/saper663/Загрузки/loads/DCJmobile1/app/src/main/res/layout/menu.xml"
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_product_item.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/product_item.xml"
     }
 ]

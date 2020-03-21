@@ -37,7 +37,7 @@ package org.diacalc.android.products
  *
  * @author Toporov Konstantin <www.diacalc.org>
 </www.diacalc.org> */
-class ProductInBase : ProductW {
+class ProductInBase : ProductFeatures {
     var isMobile = false
     var isSelected = false
     var owner = 0
@@ -45,17 +45,17 @@ class ProductInBase : ProductW {
         private set
     var id = -1
 
-    constructor(newName: String?, newProt: Float, newFat: Float, newCarb: Float,
-                newGi: Int, newWeight: Float, mobile: Boolean, owner: Int, usage: Int, id: Int) : super(newName, newProt, newFat, newCarb,
+    constructor(newName: String, newProteins: Float, newFats: Float, newCarbohydrates: Float,
+                newGi: Float, newWeight: Float, isMobile: Boolean, owner: Int, usage: Int, id: Int) : super(newName, newProteins, newFats, newCarbohydrates,
             newGi, newWeight) {
-        isMobile = mobile
+        this.isMobile = isMobile
         isSelected = false
         this.owner = owner
         this.usage = usage
         this.id = id
     }
 
-    constructor(pr: ProductW?, owner: Int, id: Int) : super(pr) {
+    constructor(productFeatures: ProductFeatures, owner: Int, id: Int) : super(productFeatures) {
         isMobile = true
         isSelected = false
         this.owner = owner

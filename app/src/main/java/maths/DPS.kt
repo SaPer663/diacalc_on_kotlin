@@ -1,5 +1,5 @@
 /*
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ * DO  NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
  *
  * Copyright 2009 Toporov Konstantin. All rights reserved.
  *
@@ -38,54 +38,58 @@ package org.diacalc.android.maths
  * @author Toporov Konstantin <www.diacalc.org>
 </www.diacalc.org> */
 class DPS {
-    private lateinit var fs: Factors
-    private var sh1: Sugar? = null
-    private var sh2: Sugar? = null
+    private  var factors: Factors = Factors()
+    private var highBloodSugar: Sugar = Sugar()
+    private var bloodSugarTargets: Sugar = Sugar()
 
     constructor() {
-        sh1 = Sugar()
-        sh2 = Sugar()
-        fs = Factors()
+        highBloodSugar = Sugar()
+        bloodSugarTargets = Sugar()
+        factors = Factors()
     }
 
-    constructor(newSh1: Sugar, newSh2: Sugar, newFs: Factors?) {
-        sh1 = if (newSh1.value > 0) Sugar(newSh1) else Sugar()
-        sh2 = if (newSh2.value > 0) Sugar(newSh2) else Sugar()
-        fs = newFs?.let { Factors(it) }!!
+    constructor(newHighValueSugar: Sugar, newTargetValueSugar: Sugar, newFactors: Factors) {
+        highBloodSugar = if (newHighValueSugar.value > 0) Sugar(newHighValueSugar) else Sugar()
+        bloodSugarTargets = if (newTargetValueSugar.value > 0) Sugar(newTargetValueSugar) else Sugar()
+        factors = Factors(newFactors)
     }
 
-    constructor(newDps: DPS) {
-        sh1 = newDps.sh1?.let { Sugar(it) }
-        sh2 = newDps.sh2?.let { Sugar(it) }
-        fs = Factors(newDps.getFs())
+    constructor(newDPS: DPS) {
+        highBloodSugar = Sugar(newDPS.highBloodSugar)
+        bloodSugarTargets = Sugar(newDPS.bloodSugarTargets)
+        factors = Factors(newDPS.getFactors())
     }
 
-    constructor(newDps: Unit)
 
-    fun setSh1(newSh1: Sugar) {
-        sh1 = if (newSh1.value > 0) Sugar(newSh1) else Sugar()
-    }
-
-    fun setSh2(newSh2: Sugar) {
-        sh2 = if (newSh2.value > 0) Sugar(newSh2) else Sugar()
-    }
-
-    fun setFs(newFs: Factors?) {
-        fs = newFs?.let { Factors(it) }!!
-    }
-
-    fun getSh1(): Sugar? {
-        return sh1
-    }
-
-    fun getSh2(): Sugar? {
-        return sh2
-    }
-
-    private fun getFs(): Factors {
-        return fs
+    private fun getFactors(): Factors {
+        return factors
     }
 
     val dPSDose: Float
-        get() = if (fs.k3 < 0.01f) 0f else (sh1!!.value - sh2!!.value) / fs.k3
+        get() = (if (factors.unitCostOfInsulin < 0.01f) 0f
+                 else (highBloodSugar.value - bloodSugarTargets.value) / (factors.unitCostOfInsulin))
 }
+
+/*
+constructor(newDps: Unit)   не используемые функции
+
+    fun setSh1(newSh1: Sugar) {
+        highValueSugar = if (newSh1.value > 0) Sugar(newSh1) else Sugar()
+    }
+
+    fun setSh2(newSh2: Sugar) {
+        targetValueSugar = if (newSh2.value > 0) Sugar(newSh2) else Sugar()
+    }
+
+    fun setFs(newFs: Factors) {
+        factors = Factors(newFs)
+    }
+
+    fun getSh1(): Sugar? {
+        return highValueSugar
+    }
+
+    fun getSh2(): Sugar? {
+        return targetValueSugar
+    }
+ */

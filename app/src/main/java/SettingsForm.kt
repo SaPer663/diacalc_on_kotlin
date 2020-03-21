@@ -14,16 +14,16 @@ class SettingsForm : Activity() {
     private var dtPkt: DataPocket? = null
     private var currentTab = 0
     private var tabHost: TabHost? = null
-    private var rbWhole: android.widget.RadioButton? = null
-    private var rbPlasma: android.widget.RadioButton? = null
-    private var rbMmol: android.widget.RadioButton? = null
-    private var rbMgdl: android.widget.RadioButton? = null
+    private var rbWhole: RadioButton? = null
+    private var rbPlasma: RadioButton? = null
+    private var rbMmol: RadioButton? = null
+    private var rbMgdl: RadioButton? = null
     private var editTargetSh: FloatEditText? = null
     private var editLowSh: FloatEditText? = null
     private var editHiSh: FloatEditText? = null
-    private var rbOne: android.widget.RadioButton? = null
-    private var calcCoefByTime: android.widget.CheckBox? = null
-    private var menuInfoVariant: android.widget.Spinner? = null
+    private var rbOne: RadioButton? = null
+    private var calcCoefByTime: CheckBox? = null
+    private var menuInfoVariant: Spinner? = null
     private var user: org.diacalc.android.maths.User? = null
     private var mgr: DatabaseManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,29 +58,29 @@ class SettingsForm : Activity() {
             currentTab = tabHost!!.currentTab
         }
         dtPkt = this.application as DataPocket?
-        user = dtPkt?.getUser(mgr!!)
+        user = dtPkt?.getUserFromBD(mgr!!)
         editLogin = findViewById<android.view.View>(R.id.editSettingsLogin) as EditText?
         editServer = findViewById<android.view.View>(R.id.editSettingsServer) as EditText?
         editPass = findViewById<android.view.View>(R.id.editSettingsPass) as EditText?
-        rbWhole = findViewById<android.view.View>(R.id.rbSettingsWhole) as android.widget.RadioButton?
-        rbPlasma = findViewById<android.view.View>(R.id.rbSettingsPlasma) as android.widget.RadioButton?
-        rbMmol = findViewById<android.view.View>(R.id.rbSettingsMmol) as android.widget.RadioButton?
-        rbMgdl = findViewById<android.view.View>(R.id.rbSettingsMgdl) as android.widget.RadioButton?
+        rbWhole = findViewById<android.view.View>(R.id.rbSettingsWhole) as RadioButton?
+        rbPlasma = findViewById<android.view.View>(R.id.rbSettingsPlasma) as RadioButton?
+        rbMmol = findViewById<android.view.View>(R.id.rbSettingsMmol) as RadioButton?
+        rbMgdl = findViewById<android.view.View>(R.id.rbSettingsMgdl) as RadioButton?
         editTargetSh = findViewById<android.view.View>(R.id.editSettingsTargetSh) as FloatEditText?
         editLowSh = findViewById<android.view.View>(R.id.editSettingsLowSh) as FloatEditText?
         editHiSh = findViewById<android.view.View>(R.id.editSettingsHiSh) as FloatEditText?
         editLogin?.setText(user?.login)
         editServer?.setText(user?.server)
         editPass?.setText(user?.pass)
-        menuInfoVariant = findViewById<android.view.View>(R.id.spinnerSettingsMenuInfo) as android.widget.Spinner?
+        menuInfoVariant = findViewById<android.view.View>(R.id.spinnerSettingsMenuInfo) as Spinner?
         val adapter: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(
                 this, R.array.menuSettingsInfoVariants,
                 android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         menuInfoVariant?.adapter = adapter
         user?.menuInfo?.let { menuInfoVariant?.setSelection(it) }
-        rbOne = findViewById<android.view.View>(R.id.rbtnSettingsOne) as android.widget.RadioButton?
-        calcCoefByTime = findViewById<android.view.View>(R.id.chBxSettingsCoefTime) as android.widget.CheckBox?
+        rbOne = findViewById<android.view.View>(R.id.rbtnSettingsOne) as RadioButton?
+        calcCoefByTime = findViewById<android.view.View>(R.id.chBxSettingsCoefTime) as CheckBox?
         rbOne?.isChecked = user!!.round == org.diacalc.android.maths.User.ROUND_1
         calcCoefByTime?.isChecked = user!!.isTimeSense
         rbPlasma?.isChecked = user!!.isPlasma
@@ -117,31 +117,31 @@ class SettingsForm : Activity() {
 
     private fun readSugarValues() {
         val s = Sugar()
-        user?.isMmol?.let { editTargetSh?.value?.let { it1 -> s.setSugar(it1, it, user!!.isPlasma) } }
+        user?.isMmol?.let { editTargetSh?.formattedValue?.let { it1 -> s.setSugar(it1, it, user!!.isPlasma) } }
         user?.targetSugar ?: s.value
-        user?.isPlasma?.let { editLowSh?.value?.let { it1 -> s.setSugar(it1, user!!.isMmol, it) } }
+        user?.isPlasma?.let { editLowSh?.formattedValue?.let { it1 -> s.setSugar(it1, user!!.isMmol, it) } }
         user?.lowSugar ?: s.value
-        editHiSh?.value?.let { user?.isPlasma?.let { it1 -> s.setSugar(it, user!!.isMmol, it1) } }
+        editHiSh?.formattedValue?.let { user?.isPlasma?.let { it1 -> s.setSugar(it, user!!.isMmol, it1) } }
         user?.hiSugar ?: s.value
     }
 
     private fun fillSugars() {
         if (user?.isMmol!!) {
-            editTargetSh?.setZeroes(1)
-            editLowSh?.setZeroes(1)
-            editHiSh?.setZeroes(1)
+            editTargetSh?.setZeroesAfterDecimalPoint(1)
+            editLowSh?.setZeroesAfterDecimalPoint(1)
+            editHiSh?.setZeroesAfterDecimalPoint(1)
         } else {
-            editTargetSh?.setZeroes(0)
-            editLowSh?.setZeroes(0)
-            editHiSh?.setZeroes(0)
+            editTargetSh?.setZeroesAfterDecimalPoint(0)
+            editLowSh?.setZeroesAfterDecimalPoint(0)
+            editHiSh?.setZeroesAfterDecimalPoint(0)
         }
         val s = Sugar()
         s.value = user!!.targetSugar
-        editTargetSh?.value ?: (s.getSugar(user!!.isMmol, user!!.isPlasma))
+        editTargetSh?.formattedValue ?: (s.getSugar(user!!.isMmol, user!!.isPlasma))
         s.value = user!!.lowSugar
-        editLowSh?.value ?: (s.getSugar(user!!.isMmol, user!!.isPlasma))
+        editLowSh?.formattedValue ?: (s.getSugar(user!!.isMmol, user!!.isPlasma))
         s.value = user!!.hiSugar
-        editHiSh?.value ?: (s.getSugar(user!!.isMmol, user!!.isPlasma))
+        editHiSh?.formattedValue ?: (s.getSugar(user!!.isMmol, user!!.isPlasma))
     }
 
     private fun saveInetData() {

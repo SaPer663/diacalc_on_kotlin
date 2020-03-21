@@ -3,7 +3,6 @@ package org.diacalc.android
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.ListActivity
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,91 +12,89 @@ import android.widget.*
 import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.AdapterView.OnItemClickListener
 import org.diacalc.android.components.FloatEditText
-import org.diacalc.android.internet.DoingPost
+//import org.diacalc.android.internet.DoingPost
 import org.diacalc.android.manager.DatabaseManager
 import org.diacalc.android.maths.User
 import org.diacalc.android.products.ProductGroup
 import org.diacalc.android.products.ProductInBase
 import org.diacalc.android.products.ProductInMenu
-import org.diacalc.android.products.ProductW
+import org.diacalc.android.products.ProductFeatures
 import java.util.*
 
 
 class ProdForm : ListActivity() {
-    private var groupTitle: TextView? = null
-    private var groupSelected = -1
-    private var prodSelected = -1
-    private var adapter: ProductProxyAdapter? = null
-    private lateinit var groups: ArrayList<ProductGroup>
-    private var prods: ArrayList<ProductInBase>? = null
-    private var mgr: DatabaseManager? = null
-    private var user: User? = null
-    private var dtPkt: DataPocket? = null
-
-    //для использования в отдельном потоке
-    private var iProds: ArrayList<ProductInBase>? = null
-    private var iGroup: ArrayList<ProductGroup>? = null
-    private var iMsg = ""
-    private var iProgressdialog: ProgressDialog? = null
+    private lateinit var productsGroupTitle: TextView
+    private var productsGroupSelected = -1
+    private var productSelected = -1
+    private lateinit var adapter: ProductProxyAdapter
+    private var productsGroup: ArrayList<ProductGroup>? = null
+    private var products: ArrayList<ProductInBase>? = null
+    private lateinit var databaseManager: DatabaseManager
+    private lateinit var user: User
+    private lateinit var dataPocket: DataPocket
+    private var productWasSelected = -1
     private val searchMode = false
     private var menuProds: ArrayList<ProductInMenu>? = null
-    private val prodsComparator = Comparator<ProductW> { p1, p2 -> p1.name.compareTo(p2.name) }
+    private val productsComparator = Comparator<ProductFeatures> { p1, p2 -> p1.name.compareTo(p2.name) }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.prods)
-        mgr = DatabaseManager(this)
-        dtPkt = this.application as DataPocket
-        user = dtPkt!!.getUser(mgr!!)
-        groupTitle = findViewById<View>(R.id.textProdGroupName) as TextView
-        groups = dtPkt!!.getGroups(mgr!!)!!
-        prods = dtPkt!!.getProducts(mgr!!)
-        menuProds = dtPkt!!.getMenuProds(mgr!!)
+        databaseManager = DatabaseManager(this)
+        dataPocket = this.application as DataPocket
+        user = dataPocket.getUserFromBD(databaseManager)
+        productsGroupTitle = findViewById<View>(R.id.textProdGroupName) as TextView
+        productsGroup = dataPocket.getGroupsFromBD(databaseManager)
+        products = dataPocket.getProductsFromBD(databaseManager)
+        menuProds = dataPocket.getProductMenuFromBD(databaseManager)
         adapter = ProductProxyAdapter(this,
-                dtPkt!!.getProducts(mgr!!))
+                dataPocket.getProductsFromBD(databaseManager))
         if (savedInstanceState != null) {
-            groupSelected = savedInstanceState.getInt("selectedGroup")
-            prodSelected = savedInstanceState.getInt("selectedRow")
-            adapter!!.filter(groups!![groupSelected].id)
-        } else if (groups!!.isNotEmpty()) {
-            groupSelected = 0
-            adapter!!.filter(groups!![groupSelected].id)
-        }
-        setGroupName(groupSelected)
+            productsGroupSelected = savedInstanceState.getInt("selectedGroup")
+            productSelected = savedInstanceState.getInt("selectedRow")
+            productsGroup?.let {
+            adapter.filter(it[productsGroupSelected].id) }
+        } else
+            productsGroup?.let {
+                if (it.isNotEmpty()) {
+                    productsGroupSelected = 0
+                    productsGroup?.let {
+                        adapter.filter(it[productsGroupSelected].id) }
+                }
+            }
+        setGroupName(productsGroupSelected)
         listView.adapter = adapter
-        if (prodSelected > -1) listView.setSelection(prodSelected)
+        if (productSelected > -1) listView.setSelection(productSelected)
 
         //getListView().setTextFilterEnabled(true);
-        listView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-            val pr = adapter!!.getItem(position) as ProductInBase
-            if (pr.isSelected) { //Убираем его из меню
-                for (i in menuProds!!.indices) {
-                    if (menuProds!![i].id == pr.id) {
-                        menuProds!!.removeAt(i)
-                        break
+        listView.onItemClickListener = OnItemClickListener { _, _, position, _ ->
+            val productInBase = adapter.getItem(position)
+            if (productInBase.isSelected) { //Убираем его из меню
+                menuProds?.let {
+                    for (i in it.indices) {
+                        if (it[i].id == productInBase.id) {
+                            it.removeAt(i)
+                            break
+                        }
                     }
                 }
             } else {
-                menuProds!!.add(ProductInMenu(pr))
-                //тут нужна сортировка
-                Collections.sort(menuProds, prodsComparator)
+                menuProds?.let {
+                    it.add(ProductInMenu(productInBase))
+                    //тут нужна сортировка
+                    Collections.sort(it, productsComparator)
+                }
             }
-            dtPkt!!.setMenuNeed2Save()
-            pr.isSelected = !pr.isSelected
-            adapter!!.notifyDataSetChanged()
+            dataPocket.setMenuNeedToSave()
+            productInBase.isSelected = !productInBase.isSelected
+            adapter.notifyDataSetChanged()
         }
         registerForContextMenu(listView)
 
-        // Get the intent, verify the action and get the query
-        /*Intent intent = getIntent();
-	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-	      String query = intent.getStringExtra(SearchManager.QUERY);
-	      Log.i("searching",query);
-	      //doMySearch(query);
-	    }*/
+
     }
 
-    fun onStarButtonClick(v: View?) {
+    fun onStarButtonClick() {
         val intent = Intent()
         intent.setClass(baseContext, MenuForm::class.java)
         startActivity(intent)
@@ -108,33 +105,39 @@ class ProdForm : ListActivity() {
         // Save UI state changes to the savedInstanceState.
         // This bundle will be passed to onCreate if the process is
         // killed and restarted.
-        savedInstanceState.putInt("selectedGroup", groupSelected)
+        savedInstanceState.putInt("selectedGroup", productsGroupSelected)
         savedInstanceState.putInt("selectedRow", listView.selectedItemPosition)
         super.onSaveInstanceState(savedInstanceState)
     }
 
     private fun setGroupName(sel: Int) {
-        if (groups.isEmpty()) {
-            groupSelected = -1
-            groupTitle?.text = getString(R.string.noGroups)
-        } else {
-            groupSelected = sel
-            groupTitle?.text = "${groupSelected + 1}. ${groups[groupSelected].name}"
+        productsGroup?.let {
+            if (it.isEmpty()) {
+                productsGroupSelected = -1
+                productsGroupTitle.text = getString(R.string.noGroups)
+            } else {
+                productsGroupSelected = sel
+                productsGroupTitle.text = "${productsGroupSelected + 1}. ${it[productsGroupSelected].name}"
+            }
         }
     }
 
     fun onClickMoveLeft() {
-        if (searchMode || groups.isEmpty()) return
-        if (groupSelected > 0) groupSelected-- else groupSelected = groups.size - 1
-        setGroupName(groupSelected)
-        adapter?.filter(groups[groupSelected].id)
+        productsGroup?.let {
+            if (searchMode || it.isEmpty()) return
+            if (productsGroupSelected > 0) productsGroupSelected-- else productsGroupSelected = it.size - 1
+            setGroupName(productsGroupSelected)
+            adapter.filter(it[productsGroupSelected].id)
+        }
     }
 
     fun onClickMoveRight() {
-        if (searchMode || groups.isEmpty()) return
-        if (groupSelected < groups.size - 1) groupSelected++ else groupSelected = 0
-        setGroupName(groupSelected)
-        adapter?.filter(groups[groupSelected].id)
+        productsGroup?.let {
+            if (searchMode || it.isEmpty()) return
+            if (productsGroupSelected < it.size - 1) productsGroupSelected++ else productsGroupSelected = 0
+            setGroupName(productsGroupSelected)
+            adapter.filter(it[productsGroupSelected].id)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -147,7 +150,7 @@ class ProdForm : ListActivity() {
         // Обработка меню
         return when (item.itemId) {
             R.id.downloadProducts -> {
-                downloadProducts()
+//                downloadProducts()       функция загрузки продуктов с сервера
                 true
             }
             R.id.createProductSub -> {
@@ -158,15 +161,15 @@ class ProdForm : ListActivity() {
         }
     }
 
-    override fun onCreateContextMenu(menu: ContextMenu, v: View,
+    override fun onCreateContextMenu(menu: ContextMenu, view: View,
                                      menuInfo: ContextMenuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo)
+        super.onCreateContextMenu(menu, view, menuInfo)
         val inflater = menuInflater
-        if (v === listView) {
+        if (view === listView) {
             inflater.inflate(R.menu.prods_context, menu)
             val info = menuInfo as AdapterContextMenuInfo
             menu.setHeaderTitle(
-                    (adapter?.getItem(info.position) as ProductInBase).name
+                    adapter.getItem(info.position).name
             )
         }
     }
@@ -190,7 +193,7 @@ class ProdForm : ListActivity() {
         }
     }
 
-    private var productWasSelected = -1
+
     private fun showDialog(id: Int, pos: Int) {
         productWasSelected = pos
         showDialog(id)
@@ -198,23 +201,24 @@ class ProdForm : ListActivity() {
     }
 
     private fun deleteProduct(pos: Int) {
-        val prod = adapter!!.getItem(pos) as ProductInBase
+        val prod = adapter.getItem(pos)
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.Delete))
                 .setMessage("""
     ${getString(R.string.deleteProduct)}:
     ${prod.name}
     """.trimIndent())
-                .setPositiveButton(getString(R.string.btnOk)) { dialog, id ->
-                    prods?.remove(prod)
-                    mgr?.deleteProduct(prod)
-                    adapter?.filter(groups[groupSelected].id)
+                .setPositiveButton(getString(R.string.btnOk)) { _, _ ->
+                    products?.remove(prod)
+                    databaseManager.deleteProduct(prod)
+                    productsGroup?.let {
+                        adapter.filter(it[productsGroupSelected].id) }
                 }
-                .setNegativeButton(getString(R.string.btnNo)) { dialog, id -> dialog.cancel() }
+                .setNegativeButton(getString(R.string.btnNo)) { dialog, _ -> dialog.cancel() }
         val alert = builder.create()
         alert.show()
     }
-
+/*
     private fun downloadProducts() {
         val t: Thread = object : Thread() {
             override fun run() {
@@ -266,6 +270,7 @@ class ProdForm : ListActivity() {
                 getString(R.string.prodsLoading), true)
         t.start()
     }
+*/
 
     /* Работа с диалогами
      */
@@ -280,100 +285,103 @@ class ProdForm : ListActivity() {
     public override fun onPrepareDialog(id: Int, dialog: Dialog) {
         when (id) {
             DIALOG_PROD_NEW_ID -> prepareProductDialog(dialog, null)
-            DIALOG_PROD_EDIT_ID -> prepareProductDialog(dialog, adapter!!.getItem(productWasSelected) as ProductInBase)
+            DIALOG_PROD_EDIT_ID -> prepareProductDialog(dialog, adapter.getItem(productWasSelected) as ProductInBase)
         }
     }
 
     private fun prepareProductDialog(dialog: Dialog, prod: ProductInBase?) {
-        val sp = dialog.findViewById<View>(R.id.spinnerGroupSelectProdDlg) as Spinner
-        val adapter = ArrayAdapter(
+        val spinner = dialog.findViewById<View>(R.id.spinnerGroupSelectProdDlg) as Spinner
+        val adapter: ArrayAdapter<ProductGroup> = ArrayAdapter(
                 this@ProdForm,
                 android.R.layout.simple_spinner_item,
-                groups)
-        sp.adapter = adapter
+                productsGroup as MutableList<ProductGroup>)
+        spinner.adapter = adapter
         if (prod == null) {
             dialog.setTitle(getString(R.string.newProduct))
             (dialog.findViewById<View>(R.id.editNameProdDlg) as EditText)
                     .setText("")
-            (dialog.findViewById<View>(R.id.editWeightProdDlg) as FloatEditText).value = 100f
-            (dialog.findViewById<View>(R.id.editProtProdDlg) as FloatEditText).value = 0f
-            (dialog.findViewById<View>(R.id.editFatProdDlg) as FloatEditText).value = 0f
-            (dialog.findViewById<View>(R.id.editCarbProdDlg) as FloatEditText).value = 0f
-            (dialog.findViewById<View>(R.id.editGiProdDlg) as FloatEditText).value = 50f
-            sp.setSelection(groupSelected)
+            (dialog.findViewById<View>(R.id.editWeightProdDlg) as FloatEditText).formattedValue = 100f
+            (dialog.findViewById<View>(R.id.editProtProdDlg) as FloatEditText).formattedValue = 0f
+            (dialog.findViewById<View>(R.id.editFatProdDlg) as FloatEditText).formattedValue = 0f
+            (dialog.findViewById<View>(R.id.editCarbProdDlg) as FloatEditText).formattedValue = 0f
+            (dialog.findViewById<View>(R.id.editGiProdDlg) as FloatEditText).formattedValue = 50f
+            spinner.setSelection(productsGroupSelected)
         } else {
             dialog.setTitle(getString(R.string.editProduct))
             (dialog.findViewById<View>(R.id.editNameProdDlg) as EditText)
                     .setText(prod.name)
-            (dialog.findViewById<View>(R.id.editWeightProdDlg) as FloatEditText).value = prod.weight
-            (dialog.findViewById<View>(R.id.editProtProdDlg) as FloatEditText).value = prod.allProt
-            (dialog.findViewById<View>(R.id.editFatProdDlg) as FloatEditText).value = prod.allFat
-            (dialog.findViewById<View>(R.id.editCarbProdDlg) as FloatEditText).value = prod.allCarb
-            (dialog.findViewById<View>(R.id.editGiProdDlg) as FloatEditText).value = prod.gi.toFloat()
+            (dialog.findViewById<View>(R.id.editWeightProdDlg) as FloatEditText).formattedValue = prod.weight
+            (dialog.findViewById<View>(R.id.editProtProdDlg) as FloatEditText).formattedValue = prod.allProteins
+            (dialog.findViewById<View>(R.id.editFatProdDlg) as FloatEditText).formattedValue = prod.allFats
+            (dialog.findViewById<View>(R.id.editCarbProdDlg) as FloatEditText).formattedValue = prod.allCarbohydrates
+            (dialog.findViewById<View>(R.id.editGiProdDlg) as FloatEditText).formattedValue = prod.gi
             var p = 0
-            for (i in groups!!.indices) {
-                if (prod.owner == groups!![i].id) {
-                    p = i
-                    break
+            productsGroup?.let {
+                for (i in it.indices) {
+                    if (prod.owner == it[i].id) {
+                        p = i
+                        break
+                    }
                 }
             }
-            sp.setSelection(p)
+            spinner.setSelection(p)
         }
         val btnOk = dialog.findViewById<View>(R.id.btnProdDlgOk) as Button
         btnOk.setOnClickListener(null)
         btnOk.setOnClickListener { // А тут делаем некие действия по созданию продукта
-            groupSelected = sp.selectedItemPosition
-            val grId = groups!![groupSelected].id
+            productsGroupSelected = spinner.selectedItemPosition
+                val groupsId = productsGroup?.let { it[productsGroupSelected].id } as Int
             if (prod == null) { //Создаем новый
-                val w = (dialog.findViewById<View>(R.id.editWeightProdDlg) as FloatEditText)
-                        .value
-                val pr = ProductInBase(
+                val weight = (dialog.findViewById<View>(R.id.editWeightProdDlg) as FloatEditText)
+                        .formattedValue
+                val productInBase = ProductInBase(
                         (dialog.findViewById<View>(R.id.editNameProdDlg) as EditText)
                                 .text.toString(),
                         100f * (dialog.findViewById<View>(R.id.editProtProdDlg) as FloatEditText)
-                                .value / w,
+                                .formattedValue / weight,
                         100f * (dialog.findViewById<View>(R.id.editFatProdDlg) as FloatEditText)
-                                .value / w,
+                                .formattedValue / weight,
                         100f * (dialog.findViewById<View>(R.id.editCarbProdDlg) as FloatEditText)
-                                .value / w,
+                                .formattedValue / weight,
                         (dialog.findViewById<View>(R.id.editGiProdDlg) as FloatEditText)
-                                .value.toInt(),
-                        w,
+                                .formattedValue,
+                        weight,
                         true,  //mobile
-                        grId,  //Владелец
+                        groupsId,  //Владелец
                         0,
                         -1
                 )
-                pr.weight = 100f
-                mgr!!.insertProduct(pr)
-                prods!!.add(pr)
+                productInBase.weight = 100f
+                databaseManager.insertProduct(productInBase)
+                products?.add(productInBase)
             } else {
-                val w = (dialog.findViewById<View>(R.id.editWeightProdDlg) as FloatEditText)
-                        .value
+                val weight = (dialog.findViewById<View>(R.id.editWeightProdDlg) as FloatEditText)
+                        .formattedValue
                 prod.name = (dialog.findViewById<View>(R.id.editNameProdDlg) as EditText)
                         .text.toString()
-                prod.prot = 100f * (dialog.findViewById<View>(R.id.editProtProdDlg) as FloatEditText)
-                        .value / w
-                prod.fat = 100f * (dialog.findViewById<View>(R.id.editFatProdDlg) as FloatEditText)
-                        .value / w
-                prod.carb = 100f * (dialog.findViewById<View>(R.id.editCarbProdDlg) as FloatEditText)
-                        .value / w
+                prod.proteins = 100f * (dialog.findViewById<View>(R.id.editProtProdDlg) as FloatEditText)
+                        .formattedValue / weight
+                prod.fats = 100f * (dialog.findViewById<View>(R.id.editFatProdDlg) as FloatEditText)
+                        .formattedValue / weight
+                prod.carbohydrates = 100f * (dialog.findViewById<View>(R.id.editCarbProdDlg) as FloatEditText)
+                        .formattedValue / weight
                 prod.gi = (dialog.findViewById<View>(R.id.editGiProdDlg) as FloatEditText)
-                        .value.toInt()
-                prod.weight = w
+                        .formattedValue
+                prod.weight = weight
                 prod.isMobile = true
-                prod.owner = grId
+                prod.owner = groupsId
                 prod.weight = 100f
-                mgr!!.changeProduct(prod)
+                databaseManager.changeProduct(prod)
             }
             dialog.dismiss()
-            Collections.sort(prods, prodsComparator)
-            setGroupName(groupSelected)
-            this@ProdForm.adapter!!.changeProds(prods, groups!![groupSelected].id)
+            Collections.sort(products as MutableList<ProductInBase>, productsComparator)
+            setGroupName(productsGroupSelected)
+            productsGroup?.let {
+                this@ProdForm.adapter.changeProducts(products as ArrayList<ProductInBase>, it[productsGroupSelected].id) }
         }
-        val btnNo = dialog.findViewById<View>(R.id.btnProdDlgNo) as Button
-        btnNo.setOnClickListener(null)
-        btnNo.setOnClickListener { //Тут просто закрываем
+        val buttonNo = dialog.findViewById<View>(R.id.btnProdDlgNo) as Button
+        buttonNo.setOnClickListener(null)
+        buttonNo.setOnClickListener { //Тут просто закрываем
             dialog.dismiss()
         }
     }
@@ -382,29 +390,28 @@ class ProdForm : ListActivity() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.product_dialog)
         (dialog.findViewById<View>(R.id.editGiProdDlg) as FloatEditText)
-                .setZeroes(0)
+                .setZeroesAfterDecimalPoint(0)
         val name = dialog.findViewById<View>(R.id.editNameProdDlg) as EditText
         val weight = dialog.findViewById<View>(R.id.editWeightProdDlg) as FloatEditText
-        val prot = dialog.findViewById<View>(R.id.editProtProdDlg) as FloatEditText
-        val fat = dialog.findViewById<View>(R.id.editFatProdDlg) as FloatEditText
-        val carb = dialog.findViewById<View>(R.id.editCarbProdDlg) as FloatEditText
+        val proteins = dialog.findViewById<View>(R.id.editProtProdDlg) as FloatEditText
+        val fats = dialog.findViewById<View>(R.id.editFatProdDlg) as FloatEditText
+        val carbs = dialog.findViewById<View>(R.id.editCarbProdDlg) as FloatEditText
         val gi = dialog.findViewById<View>(R.id.editGiProdDlg) as FloatEditText
         name.nextFocusDownId = R.id.editWeightProdDlg
         weight.nextFocusDownId = R.id.editProtProdDlg
-        prot.nextFocusDownId = R.id.editFatProdDlg
-        fat.nextFocusDownId = R.id.editCarbProdDlg
-        carb.nextFocusDownId = R.id.editGiProdDlg
+        proteins.nextFocusDownId = R.id.editFatProdDlg
+        fats.nextFocusDownId = R.id.editCarbProdDlg
+        carbs.nextFocusDownId = R.id.editGiProdDlg
         gi.nextFocusDownId = R.id.spinnerGroupSelectProdDlg
         return dialog
     }
 
-    private inner class ProductProxyAdapter(c: Context?, prods: ArrayList<ProductInBase>?) : BaseAdapter() {
+    private inner class ProductProxyAdapter(c: Context?, products: ArrayList<ProductInBase>?) : BaseAdapter() {
         private var filter: ArrayList<Int>? = null
-        private var underlying //неотфильтрованные продукты
-                : ArrayList<ProductInBase>?
+        private var underlying: ArrayList<ProductInBase> //неотфильтрованные продукты
         private val mInflater: LayoutInflater = LayoutInflater.from(c)
-        fun changeProds(prods: ArrayList<ProductInBase>?, owner: Int) {
-            underlying = prods
+        fun changeProducts(products: ArrayList<ProductInBase>, owner: Int) {
+            underlying = products
             filter(owner)
         }
 
@@ -412,7 +419,7 @@ class ProdForm : ListActivity() {
             if (filter == null) {
                 return index
             }
-            return if (filter!!.size > index && index >= 0) {
+            return if (filter!!.size > index && index >= 0 ) {
                 filter!![index]
             } else -1
         }
@@ -425,10 +432,10 @@ class ProdForm : ListActivity() {
 
         fun filter(owner: Int) {
             filter = ArrayList()
-            for (iter in underlying!!.indices) {
-                if (underlying!![iter].owner == owner
+            for (iter in underlying.indices) {
+                if (underlying[iter].owner == owner
                         || owner == -1) {
-                    filter!!.add(iter)
+                    filter?.add(iter)
                 }
             }
             notifyDataSetChanged()
@@ -438,34 +445,34 @@ class ProdForm : ListActivity() {
             // TODO Auto-generated method stub
             /*if (underlying!=null) return underlying.size();
 			else return 0;*/
-            return if (filter != null) filter!!.size else 0
+            return filter?.size ?: 0
         }
 
         override fun getItem(index: Int): ProductInBase {
-            return (if (index < 0) null else underlying!![getFilterOffset(index)]) as ProductInBase
+            return (if (index < 0) null else underlying[getFilterOffset(index)]) as ProductInBase
         }
 
         override fun getItemId(position: Int): Long {
             return position.toLong()
         }
 
-        override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+        override fun getView(position: Int, _convertView: View?, parent: ViewGroup): View {
             // A ViewHolder keeps references to children views to avoid unneccessary calls
             // to findViewById() on each row.
-            var convertView = convertView
+            var convertView = _convertView
             val holder: ViewHolder
 
             // When convertView is not null, we can reuse it directly, there is no need
             // to reinflate it. We only inflate a new View when the convertView supplied
             // by ListView is null.
             if (convertView == null) {
-                convertView = mInflater.inflate(R.layout.product_item, null)
+                convertView = mInflater.inflate(R.layout.product_item, parent,false)
 
                 // Creates a ViewHolder and store references to the two children views
                 // we want to bind data to.
                 holder = ViewHolder()
                 holder.name = convertView.findViewById<View>(R.id.textProductName) as TextView
-                holder.descr = convertView.findViewById<View>(R.id.textProductDescription) as TextView
+                holder.description = convertView.findViewById<View>(R.id.textProductDescription) as TextView
                 holder.selected = convertView.findViewById<View>(R.id.checkProductSelected) as CheckBox
                 convertView.tag = holder
             } else {
@@ -475,21 +482,21 @@ class ProdForm : ListActivity() {
             }
 
             // Bind the data efficiently with the holder.
-            holder.name!!.text = (getItem(position) as ProductInBase).name
-            holder.descr!!.text = """${underlying!![getFilterOffset(position)].prot}-${underlying!![getFilterOffset(position)].fat}-${underlying!![getFilterOffset(position)].carb}-${underlying!![getFilterOffset(position)].gi}"""
-            holder.selected!!.isChecked = underlying!![getFilterOffset(position)].isSelected
-            return convertView
+            holder.name.text = getItem(position).name
+            holder.description.text = """${underlying[getFilterOffset(position)].proteins}-${underlying[getFilterOffset(position)].fats}-${underlying[getFilterOffset(position)].carbohydrates}-${underlying[getFilterOffset(position)].gi}"""
+            holder.selected.isChecked = underlying[getFilterOffset(position)].isSelected
+            return convertView as View
         }
 
         internal inner class ViewHolder {
-            var name: TextView? = null
-            var descr: TextView? = null
-            var selected: CheckBox? = null
+            lateinit var name: TextView
+            lateinit var description: TextView
+            lateinit var selected: CheckBox
         }
 
         init {
             // Cache the LayoutInflate to avoid asking for a new one each time.
-            underlying = prods
+            underlying = products as ArrayList<ProductInBase>
         }
     }
 
@@ -499,3 +506,11 @@ class ProdForm : ListActivity() {
         private const val DIALOG_GROUP_ID = 200 + 2
     }
 }
+
+// Get the intent, verify the action and get the query
+/*Intent intent = getIntent();
+if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+  String query = intent.getStringExtra(SearchManager.QUERY);
+  Log.i("searching",query);
+  //doMySearch(query);
+}*/

@@ -39,126 +39,111 @@ import org.diacalc.android.maths.Dose
  *
  * @author Toporov Konstantin <www.diacalc.org>
 </www.diacalc.org> */
-open class ProductW {
+open class ProductFeatures {
 
     var name: String = String()
-    var prot: Float = 0f
-    var fat: Float = 0f
-    var carb: Float = 0f
-    internal var gi: Int = 50
+    var proteins: Float = 0f
+    var fats: Float = 0f
+    var carbohydrates: Float = 0f
+    internal var gi: Float = 50f
     internal var weight: Float = 0f
 
     constructor()
-    constructor(newName: String?, newProt: Float, newFat: Float, newCarb: Float,
-                newGi: Int, newWeight: Float) {
-        if (newName != null) {
-            name = newName
-        }
-        prot = newProt
-        fat = newFat
-        carb = newCarb
+    constructor(newName: String, newProteins: Float, newFats: Float, newCarbohydrates: Float,
+                newGi: Float, newWeight: Float) {
+        name = newName
+        proteins = newProteins
+        fats = newFats
+        carbohydrates = newCarbohydrates
         setGi(newGi)
         setWeight(newWeight)
     }
 
-    constructor(newProd: ProductW?) {
-        if (newProd != null) {
-            name = newProd.name
-        }
-        if (newProd != null) {
-            prot = newProd.prot
-        }
-        if (newProd != null) {
-            fat = newProd.fat
-        }
-        if (newProd != null) {
-            carb = newProd.carb
-        }
-        if (newProd != null) {
-            gi = newProd.getGi()
-        }
-        if (newProd != null) {
-            weight = newProd.getWeight()
-        }
+    constructor(newProductFeatures: ProductFeatures) {
+        name = newProductFeatures.name
+        proteins = newProductFeatures.proteins
+        fats = newProductFeatures.fats
+        carbohydrates = newProductFeatures.carbohydrates
+        gi = newProductFeatures.getGi()
+        weight = newProductFeatures.getWeight()
     }
 
-    fun getGi(): Int = gi
+    fun getGi(): Float = gi
 
 
     fun getWeight(): Float = weight
 
 
     val calories: Float
-        get() = (Dose.PROT * allProt) + (Dose.FAT * allFat) + (
-                Dose.CARB * allCarb)
+        get() = (Dose.PROTEINS * allProteins) + (Dose.FATS * allFats) + (
+                Dose.CARBOHYDRATES * allCarbohydrates)
 
 
 
     private fun flush() {
         name = ""
-        prot = 0f
-        fat = 0f
-        carb = 0f
-        gi = 0
+        proteins = 0f
+        fats = 0f
+        carbohydrates = 0f
+        gi = 0f
         weight = 0f
     }
 
-    private fun setGi(newGi: Int) {
-        gi = if (newGi < 0) 50 else if (newGi > 100) 100 else if (newGi == 0) 50 else newGi
+    private fun setGi(newGi: Float) {
+        gi = if (newGi <= 0) 50f else if (newGi > 100) 100f else newGi
     }
 
     fun setWeight(newWeight: Float) {
         weight = if (newWeight < 0) 0f else newWeight
     }
 
-    val allProt: Float
+    val allProteins: Float
         get() {
-            return prot * weight / 100f
+            return proteins * weight / 100f
         }
 
-    val allFat: Float
+    val allFats: Float
         get() {
-            return fat * weight / 100f
+            return fats * weight / 100f
         }
 
-    val allCarb: Float
+    val allCarbohydrates: Float
         get() {
-            return carb * weight / 100f
+            return carbohydrates * weight / 100f
         }
 
-    fun plusProd(ProdToAdd: ProductW) {
-        val allProt: Float = prot * weight / 100f + ProdToAdd.allProt
-        val allFat: Float = fat * weight / 100f + ProdToAdd.allFat
-        val allCarb: Float = carb * weight / 100f + ProdToAdd.allCarb
-        val allCarbQuick: Float = (gi / 100f) * carb * weight / 100f +
-                (ProdToAdd.getGi() / 100f) * ProdToAdd.allCarb
-        val newGi: Int
-        newGi = if (allCarb == 0f) 50 else {
-            (((100f * allCarbQuick / allCarb) + 0.5f) * 100f).toInt() / 100
+    fun productAddition(productBeingAdded: ProductFeatures) {
+        val totalAmoutProteins: Float = proteins * weight / 100f + productBeingAdded.allProteins
+        val totalAmountFats: Float = fats * weight / 100f + productBeingAdded.allFats
+        val totalAmountCarbohydrates: Float = carbohydrates * weight / 100f + productBeingAdded.allCarbohydrates
+        val totalFastCarbohydrates: Float = (gi / 100f) * carbohydrates * weight / 100f +
+                (productBeingAdded.getGi() / 100f) * productBeingAdded.allCarbohydrates
+        val newGi: Float = if (totalAmountCarbohydrates == 0f) 50f else {
+            (((100f * totalFastCarbohydrates / totalAmountCarbohydrates) + 0.5f) * 100f) / 100
             //Math.round(100f * AllCarbQuick / AllCarb);
         } //RoundTo(100 * AllCarbQuick / AllUg , 0 );
         /*
          // round to 2 decimal points
             double number = (double)(int)((bmi+0.005)*100.0)/100.0;
         */
-        val newWeight: Float = weight + ProdToAdd.getWeight()
+        val newWeight: Float = weight + productBeingAdded.getWeight()
         if (newWeight != 0f) {
-            if (name.isEmpty()) name = ProdToAdd.name else name += " " + ProdToAdd.name
-            prot = 100f * allProt / newWeight
-            fat = 100f * allFat / newWeight
-            carb = 100f * allCarb / newWeight
+            if (name.isEmpty()) name = productBeingAdded.name else name += " $productBeingAdded.name"
+            proteins = 100f * totalAmoutProteins / newWeight
+            fats = 100f * totalAmountFats / newWeight
+            carbohydrates = 100f * totalAmountCarbohydrates / newWeight
             setGi(newGi)
             weight = newWeight
         } else flush()
     }
 
-    fun equals(pr: ProductW): Boolean {
-        return (name == pr.name) && (prot == pr.prot) && (fat == pr.fat) && (
-                carb == pr.carb) && (gi == pr.gi) && (weight == pr.weight)
+    fun isEquals(pr: ProductFeatures): Boolean {
+        return (name == pr.name) && (proteins == pr.proteins) && (fats == pr.fats) && (
+                carbohydrates == pr.carbohydrates) && (gi == pr.gi) && (weight == pr.weight)
     }
 
     override fun toString(): String {
-        return "$name $prot $fat $carb $gi"
+        return "$name $proteins $fats $carbohydrates $gi"
     }
 }
 
