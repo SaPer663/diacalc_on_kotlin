@@ -1,4 +1,4 @@
-#Mon Mar 16 12:53:49 YEKT 2020
+#Sun Mar 22 21:23:15 YEKT 2020
 base.0=/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/dex/debug/out/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

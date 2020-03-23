@@ -246,4 +246,3 @@ int string weightGr 0x7f060065
 int style MenuInfoFont 0x7f070000
 int style MenuTopFont 0x7f070001
 int style MenuTopLabel 0x7f070002
-int xml searchable 0x7f080000

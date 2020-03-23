@@ -234,7 +234,7 @@ class MenuForm : Activity() {
         }
     }
 
-    fun onStarMenuButtonClick() {
+    fun onStarMenuButtonClick(view: View) {
         val intent = Intent()
         intent.setClass(baseContext, ProdForm::class.java)
         startActivity(intent)

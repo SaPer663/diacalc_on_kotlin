@@ -12,12 +12,12 @@
         "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/menu_coefs_dlg.xml"
     },
     {
-        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_settings_menutab.xml.flat",
-        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/settings_menutab.xml"
-    },
-    {
         "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/drawable-mdpi_icon.png.flat",
         "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/drawable-mdpi/icon.png"
+    },
+    {
+        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_settings_menutab.xml.flat",
+        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/settings_menutab.xml"
     },
     {
         "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout-land_menu.xml.flat",
@@ -26,10 +26,6 @@
     {
         "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_settings_bloodtab.xml.flat",
         "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/layout/settings_bloodtab.xml"
-    },
-    {
-        "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/xml_searchable.xml.flat",
-        "source": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/src/main/res/xml/searchable.xml"
     },
     {
         "merged": "/home/saper663/AndroidStudioProjects/diacalc_on_kotlin/app/build/intermediates/res/merged/debug/layout_menu_drs_dlg.xml.flat",

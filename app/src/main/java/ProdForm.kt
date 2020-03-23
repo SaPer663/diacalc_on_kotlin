@@ -6,6 +6,7 @@ import android.app.ListActivity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.ContextMenu.ContextMenuInfo
 import android.widget.*
@@ -94,7 +95,7 @@ class ProdForm : ListActivity() {
 
     }
 
-    fun onStarButtonClick() {
+    fun onStarButtonClick(v: View) {
         val intent = Intent()
         intent.setClass(baseContext, MenuForm::class.java)
         startActivity(intent)
@@ -122,7 +123,7 @@ class ProdForm : ListActivity() {
         }
     }
 
-    fun onClickMoveLeft() {
+    fun onClickMoveLeft(v: View) {
         productsGroup?.let {
             if (searchMode || it.isEmpty()) return
             if (productsGroupSelected > 0) productsGroupSelected-- else productsGroupSelected = it.size - 1
@@ -131,7 +132,7 @@ class ProdForm : ListActivity() {
         }
     }
 
-    fun onClickMoveRight() {
+    fun onClickMoveRight(v: View) {
         productsGroup?.let {
             if (searchMode || it.isEmpty()) return
             if (productsGroupSelected < it.size - 1) productsGroupSelected++ else productsGroupSelected = 0
@@ -295,6 +296,8 @@ class ProdForm : ListActivity() {
                 this@ProdForm,
                 android.R.layout.simple_spinner_item,
                 productsGroup as MutableList<ProductGroup>)
+        Log.d("ProF", "$adapter")
+        Log.d("ProF", "$productsGroup")
         spinner.adapter = adapter
         if (prod == null) {
             dialog.setTitle(getString(R.string.newProduct))

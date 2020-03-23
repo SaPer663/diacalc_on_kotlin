@@ -3,6 +3,7 @@ package org.diacalc.android.manager
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import org.diacalc.android.maths.Factors
 import org.diacalc.android.maths.User
 import org.diacalc.android.products.ProductGroup
@@ -12,6 +13,7 @@ import java.util.ArrayList
 
 class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(context, dbName, null, dbVersion) {
     override fun onCreate(db: SQLiteDatabase) {
+        Log.d("DB", "DB star")
         db.execSQL("DROP TABLE IF EXISTS $userTable")
         db.execSQL("DROP TABLE IF EXISTS $productsTable")
         db.execSQL("DROP TABLE IF EXISTS $groupTable")
@@ -36,9 +38,9 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
                 USER_TIME_SENSE + " INTEGER NOT NULL, " +
                 USER_MENU_INFO + " INTEGER);")
         //db.execSQL() Тут нужно внести нового дефолтного пользователя
-        val user: org.diacalc.android.maths.User = org.diacalc.android.maths.User("noname", "", org.diacalc.android.maths.User.DEF_SERVER, Factors(),
-                org.diacalc.android.maths.User.ROUND_1, org.diacalc.android.maths.User.WHOLE, org.diacalc.android.maths.User.MMOL, 5.6f, 5.6f,
-                org.diacalc.android.maths.User.NO_TIMESENSE, 5.6f, 3.2f, 7.8f, 0)
+        val user = User("noname", "", User.DEF_SERVER, Factors(),
+                User.ROUND_1, User.WHOLE, User.MMOL, 5.6f, 5.6f,
+                User.NO_TIMESENSE, 5.6f, 3.2f, 7.8f, 0)
         val contentValues = ContentValues(16)
         contentValues.put(USER_LOGIN, user.login)
         contentValues.put(USER_PASS, user.pass)
@@ -90,6 +92,7 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
                 MENU_SNACK + " INTEGER);") //перекус ли, оставляем на будущее
 
         //db.close();
+        Log.d("DB", "DB end")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -178,7 +181,7 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
             contentValuesGroup.put(GROUP_NAME, productsGroup[group].name)
             contentValuesGroup.put(GROUP_SORT_INDEX, group + 1)
             val groupId: Long = db.insert(groupTable, null, contentValuesGroup)
-            android.util.Log.i("sqlite", "" + groupId)
+            Log.i("sqlite", "$groupId")
             db.beginTransaction()
             try {
                 for (product in productsInBase.indices) {
@@ -270,14 +273,14 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
         db.close()
     }
 
-    val user: org.diacalc.android.maths.User
+    val user: User
         get() {
             val db: SQLiteDatabase = readableDatabase
             val cursor: android.database.Cursor = db.rawQuery("SELECT * FROM $userTable", null)
-            var user: User?
+            val user: User?
             cursor.moveToFirst()
             user = if (cursor.count > 0) {
-                org.diacalc.android.maths.User(
+                User(
                         cursor.getString(cursor.getColumnIndex(USER_LOGIN)),
                         cursor.getString(cursor.getColumnIndex(USER_PASS)),
                         cursor.getString(cursor.getColumnIndex(USER_SERVER)),
@@ -300,16 +303,16 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
                         cursor.getInt(cursor.getColumnIndex(USER_MENU_INFO))
                 )
             } else {
-                org.diacalc.android.maths.User("noname", "", org.diacalc.android.maths.User.DEF_SERVER, Factors(),
-                        org.diacalc.android.maths.User.ROUND_1, org.diacalc.android.maths.User.WHOLE, org.diacalc.android.maths.User.MMOL, 5.6f, 5.6f,
-                        org.diacalc.android.maths.User.NO_TIMESENSE, 5.6f, 3.2f, 7.8f, 0)
+                User("noname", "", User.DEF_SERVER, Factors(),
+                        User.ROUND_1, User.WHOLE, User.MMOL, 5.6f, 5.6f,
+                        User.NO_TIMESENSE, 5.6f, 3.2f, 7.8f, 0)
             }
             cursor.close()
             db.close()
             return user
         }
 
-    fun putUser(user: org.diacalc.android.maths.User) {
+    fun putUser(user: User) {
         val db: SQLiteDatabase = this.writableDatabase
         val contentValues = ContentValues(16)
         contentValues.apply { 

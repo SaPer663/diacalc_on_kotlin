@@ -2,7 +2,9 @@ package org.diacalc.android
 
 import android.app.Activity
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.view.View
 import org.diacalc.android.manager.DatabaseManager
 
 class DCJStart : Activity() {
@@ -12,6 +14,9 @@ class DCJStart : Activity() {
         // Restore UI state from the savedInstanceState.
         setContentView(R.layout.main)
         android.util.Log.i(DCJ_TAG, "on create!!!")
+        val dbm = DatabaseManager(this)
+        val db: SQLiteDatabase = dbm.writableDatabase
+        dbm.onCreate(db)
     }
 
     override fun onKeyDown(keyCode: Int, event: android.view.KeyEvent): Boolean {
@@ -22,19 +27,19 @@ class DCJStart : Activity() {
         return super.onKeyDown(keyCode, event)
     }
 
-    fun onMenuBtnClick() { //Запускаем форму меню
+    fun onMenuBtnClick(v: View) { //Запускаем форму меню
         val intent = Intent()
         intent.setClass(this, MenuForm::class.java)
         startActivity(intent)
     }
 
-    fun onSettingsBtnClick() { //Запускаем настройки
+    fun onSettingsBtnClick(v: View) { //Запускаем настройки
         val intent = Intent()
         intent.setClass(this, SettingsForm::class.java)
         startActivity(intent)
     }
 
-    fun onProductsBtnClick() { //Запускаем продукты
+    fun onProductsBtnClick(v: View) { //Запускаем продукты
         val intent = Intent()
         intent.setClass(this, ProdForm::class.java)
         startActivity(intent)
