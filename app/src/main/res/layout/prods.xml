@@ -9,8 +9,7 @@
     	android:layout_height="wrap_content"
     	android:text="@string/moveLeft"
     	
-    	android:onClick="onClickMoveLeft"
-    />
+    	android:onClick="onClickMoveLeft"/>
     <Button
     	android:id="@+id/btnProdMoveRight"
     	android:layout_width="wrap_content"
@@ -18,9 +17,7 @@
     	android:text="@string/moveRight"
     	
     	android:onClick="onClickMoveRight"
-    	
-    	android:layout_alignParentRight="true"
-    />
+    	android:layout_alignParentRight="true"/>
     <TextView 
     	android:id="@+id/textProdGroupName"
     	android:layout_width="wrap_content"
@@ -31,8 +28,7 @@
     	
     	android:layout_toRightOf="@id/btnProdMoveLeft"
     	android:layout_toLeftOf="@id/btnProdMoveRight"
-    	android:layout_alignBaseline="@id/btnProdMoveLeft"
-    	/>
+    	android:layout_alignBaseline="@id/btnProdMoveLeft"/>
     <ListView
     	android:id="@+id/android:list"
     	android:layout_width="fill_parent"
@@ -41,8 +37,7 @@
     	android:layout_below="@id/btnProdMoveLeft"
     	android:layout_alignParentLeft="true"
     	android:layout_alignParentRight="true"
-    	android:layout_alignParentBottom="true"
-    />
+    	android:layout_alignParentBottom="true"/>
     <TextView
     	android:id="@+id/android:empty"
     	android:layout_width="fill_parent"
@@ -54,8 +49,7 @@
     	android:layout_below="@id/btnProdMoveLeft"
     	android:layout_alignParentLeft="true"
     	android:layout_alignParentRight="true"
-    	android:layout_alignParentBottom="true"
-    />
+    	android:layout_alignParentBottom="true"/>
     <Button
     	android:id="@+id/btnProdStar"
     	android:layout_width="wrap_content"
@@ -65,6 +59,5 @@
     	android:onClick="onStarButtonClick"
     	
     	android:layout_alignParentRight="true"
-    	android:layout_alignParentBottom="true"
-    />
+    	android:layout_alignParentBottom="true"/>
 </RelativeLayout>

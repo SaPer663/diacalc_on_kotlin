@@ -55,14 +55,15 @@ class ProdForm : ListActivity() {
             productSelected = savedInstanceState.getInt("selectedRow")
             productsGroup?.let {
             adapter.filter(it[productsGroupSelected].id) }
-        } else
-            productsGroup?.let {
-                if (it.isNotEmpty()) {
-                    productsGroupSelected = 0
-                    productsGroup?.let {
-                        adapter.filter(it[productsGroupSelected].id) }
+        } else {
+            if (!productsGroup.isNullOrEmpty()) {
+                productsGroupSelected = 0
+                productsGroup?.let {
+                    adapter.filter(it[productsGroupSelected].id)
                 }
             }
+        }
+
         setGroupName(productsGroupSelected)
         listView.adapter = adapter
         if (productSelected > -1) listView.setSelection(productSelected)

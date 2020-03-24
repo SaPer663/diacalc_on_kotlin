@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import org.diacalc.android.manager.DatabaseManager
 
@@ -13,10 +14,12 @@ class DCJStart : Activity() {
         super.onCreate(savedInstanceState)
         // Restore UI state from the savedInstanceState.
         setContentView(R.layout.main)
-        android.util.Log.i(DCJ_TAG, "on create!!!")
-        val dbm = DatabaseManager(this)
-        val db: SQLiteDatabase = dbm.writableDatabase
-        dbm.onCreate(db)
+        Log.i(DCJ_TAG, "on create!!!")
+        val dbm = DatabaseManager(this).readableDatabase
+        //dbm.rawQuery("SELECT * FROM ${DatabaseManager.userTable}", null)
+        Log.d("DB", "DB readable! ")
+
+        dbm.close()
     }
 
     override fun onKeyDown(keyCode: Int, event: android.view.KeyEvent): Boolean {

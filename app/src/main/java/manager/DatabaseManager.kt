@@ -1,6 +1,8 @@
 package org.diacalc.android.manager
 
 import android.content.ContentValues
+import android.content.Context
+import android.content.SharedPreferences
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
@@ -9,12 +11,75 @@ import org.diacalc.android.maths.User
 import org.diacalc.android.products.ProductGroup
 import org.diacalc.android.products.ProductInBase
 import org.diacalc.android.products.ProductInMenu
+import java.io.File
+import java.io.FileOutputStream
 import java.util.ArrayList
 
-class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(context, dbName, null, dbVersion) {
+
+class DatabaseManager(val context: Context) : SQLiteOpenHelper(context, dbName, null, dbVersion) {
+
+    private val preferences: SharedPreferences = context.getSharedPreferences(
+            "${context.packageName}.database_versions",
+            Context.MODE_PRIVATE
+    )
+
+    private fun installedDatabaseIsOutdated(): Boolean {
+        return preferences.getInt(dbName, 0) < dbVersion
+    }
+
+    private fun writeDatabaseVersionInPreferences() {
+        preferences.edit().apply {
+            putInt(dbName, dbVersion)
+            apply()
+        }
+        Log.i("Database", "${preferences.getInt(dbName, 0)}")
+    }
+
+    private fun installDatabaseFromAssets() {
+ //       val path =  context.getDatabasePath(databaseName).absolutePath
+//        val inputStream = context.assets.open("$path/BASE.sqlite")
+        val inputStream = context.assets.open("$ASSETS_PATH/$dbName.sqlite")
+
+        try {
+            val outputFile = File(context.getDatabasePath(dbName).path)
+            Log.i("Database", "${context.getDatabasePath(dbName).path}")
+            val outputStream = FileOutputStream(outputFile)
+
+            inputStream.copyTo(outputStream)
+            Log.i("Database", "inputSream")
+            inputStream.close()
+
+            outputStream.flush()
+            outputStream.close()
+        } catch (exception: Throwable) {
+            throw RuntimeException("The $dbName database couldn't be installed.", exception)
+        }
+    }
+
+    @Synchronized
+    private fun installOrUpdateIfNecessary() {
+//        writeDatabaseVersionInPreferences()
+        if (installedDatabaseIsOutdated()) {
+            context.deleteDatabase(dbName)
+            installDatabaseFromAssets()
+            writeDatabaseVersionInPreferences()
+            Log.i("Database", "install")
+        }
+    }
+
+    override fun getWritableDatabase(): SQLiteDatabase {
+        throw RuntimeException("The $dbName database is not writable.")
+    }
+
+    override fun getReadableDatabase(): SQLiteDatabase {
+        Log.i("Database", "getreadable")
+        installOrUpdateIfNecessary()
+        return super.getReadableDatabase()
+    }
+
     override fun onCreate(db: SQLiteDatabase) {
         Log.d("DB", "DB star")
-        db.execSQL("DROP TABLE IF EXISTS $userTable")
+/*        db.execSQL("DROP TABLE IF EXISTS $userTable")
         db.execSQL("DROP TABLE IF EXISTS $productsTable")
         db.execSQL("DROP TABLE IF EXISTS $groupTable")
         db.execSQL("DROP TABLE IF EXISTS $menuTable")
@@ -91,17 +156,17 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
                 PROD_WEIGHT + " REAL, " +
                 MENU_SNACK + " INTEGER);") //перекус ли, оставляем на будущее
 
-        //db.close();
+        //db.close();*/
         Log.d("DB", "DB end")
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         //do nothing yet
-        db.execSQL("DROP TABLE  IF EXISTS $userTable")
+/*        db.execSQL("DROP TABLE  IF EXISTS $userTable")
         db.execSQL("DROP TABLE  IF EXISTS $groupTable")
         db.execSQL("DROP TABLE  IF EXISTS $productsTable")
         db.execSQL("DROP TABLE  IF EXISTS $menuTable")
-        onCreate(db)
+        onCreate(db) */
     }
 
     val menuProducts: ArrayList<ProductInMenu>
@@ -131,7 +196,7 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
         get() {
             val products: ArrayList<ProductInBase> = ArrayList()
             val db: SQLiteDatabase = readableDatabase
-            val cursor: android.database.Cursor = db.rawQuery("SELECT * FROM $productsTable ORDER BY $PROD_NAME", null)
+            val cursor: android.database.Cursor = db.rawQuery("SELECT * FROM $productTable ORDER BY $PROD_NAME", null)
             cursor.moveToFirst()
             if (cursor.count > 0) do {
                 products.add(
@@ -175,7 +240,7 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
         val db: SQLiteDatabase = this.writableDatabase
         //Чистим
         db.delete(groupTable, null, null)
-        db.delete(productsTable, null, null)
+        db.delete(productTable, null, null)
         for (group in productsGroup.indices) {
             val contentValuesGroup = ContentValues(2)
             contentValuesGroup.put(GROUP_NAME, productsGroup[group].name)
@@ -196,7 +261,7 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
                         contentValueProduct.put(PROD_MOBILE, if (productsInBase[product].isMobile) 1 else 0)
                         contentValueProduct.put(PROD_OWNER, groupId)
                         contentValueProduct.put(PROD_USAGE, productsInBase[product].usage)
-                        db.insert(productsTable, null, contentValueProduct)
+                        db.insert(productTable, null, contentValueProduct)
                     }
                 }
                 db.setTransactionSuccessful()
@@ -237,7 +302,7 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
 
     fun deleteProduct(productInBase: ProductInBase) {
         val db: SQLiteDatabase = writableDatabase
-        db.delete(productsTable, "$PROD_ID=?", arrayOf("" + productInBase.id))
+        db.delete(productTable, "$PROD_ID=?", arrayOf("" + productInBase.id))
         db.close()
     }
 
@@ -253,7 +318,7 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
         contentValues.put(PROD_MOBILE, 1)
         contentValues.put(PROD_OWNER, productInBase.owner)
         contentValues.put(PROD_USAGE, 0)
-        productInBase.id = (db.insert(productsTable, null, contentValues).toInt())
+        productInBase.id = (db.insert(productTable, null, contentValues).toInt())
         db.close()
     }
 
@@ -269,7 +334,7 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
         contentValues.put(PROD_MOBILE, if (productInBase.isMobile) 1 else 0)
         contentValues.put(PROD_OWNER, productInBase.owner)
         contentValues.put(PROD_USAGE, productInBase.usage)
-        db.update(productsTable, contentValues, "$PROD_ID=?", arrayOf("" + productInBase.id))
+        db.update(productTable, contentValues, "$PROD_ID=?", arrayOf("" + productInBase.id))
         db.close()
     }
 
@@ -277,8 +342,14 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
         get() {
             val db: SQLiteDatabase = readableDatabase
             val cursor: android.database.Cursor = db.rawQuery("SELECT * FROM $userTable", null)
+            Log.e("size", "${cursor.count}")
             val user: User?
             cursor.moveToFirst()
+            //val arr = cursor.columnNames
+            //for (col in arr) {
+             //   Log.d("cursor", col)
+            //}
+            Log.e("cursor", "${cursor.columnCount.toString()}")
             user = if (cursor.count > 0) {
                 User(
                         cursor.getString(cursor.getColumnIndex(USER_LOGIN)),
@@ -340,17 +411,20 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
 
 
     companion object {
-        const val dbName = "dcjmobile"
-        const val dbVersion = 3
-        const val userTable = "user"
-        const val groupTable = "prodgr"
-        const val productsTable = "products"
+//        const val DATABASE_NAME = "mydb"
+//        const val DATABASE_VERSION = 1
+        const val ASSETS_PATH = "databases"
+        const val dbName = "BASE"
+        const val dbVersion = 4
+        const val userTable = "users"
+        const val groupTable = "productGroup"
+        const val productTable = "products"
         const val menuTable = "menu"
         private const val PROD_ID = "idProd"
         private const val PROD_NAME = "name"
-        private const val PROD_PROTEINS = "prot"
-        private const val PROD_FATS = "fat"
-        private const val PROD_CARBS = "carb"
+        private const val PROD_PROTEINS = "proteins"
+        private const val PROD_FATS = "fats"
+        private const val PROD_CARBS = "carbs"
         private const val PROD_GI = "gi"
         private const val PROD_WEIGHT = "weight"
         private const val PROD_MOBILE = "mobile"
@@ -377,6 +451,36 @@ class DatabaseManager(context: android.content.Context) : SQLiteOpenHelper(conte
         private const val USER_MENU_INFO = "menuInfo"
         private const val GROUP_ID = "idGroup"
         private const val GROUP_NAME = "name"
-        private const val GROUP_SORT_INDEX = "sortIndx"
+        private const val GROUP_SORT_INDEX = "sortIndex"
     }
 }
+/*
+idUser
+name
+weight
+height
+male
+calorLimit
+mmol
+plasma
+targetSh
+direct
+BE
+k1
+k2
+k3
+sh1
+sh2
+prot
+fat
+carb
+gi
+FoodWeight
+time
+timeSense
+OUVcoef
+birthday
+lowSugar
+hiSugar
+
+ */
